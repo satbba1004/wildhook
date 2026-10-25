@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>상품 찾기</title>
+<style>
+:root{--b:#2563eb;--t:#1f2933;--m:#6b7785;--l:#e5e7eb;--bg:#f6f7f9;--r:#c62828;--g:#2e7d32}
+*{box-sizing:border-box}html{font-size:15px}html.big{font-size:18.5px}
+body{margin:0;font-family:-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:var(--bg);color:var(--t);font-size:1rem;padding-bottom:70px}
+header{background:#fff;padding:14px 16px 10px;border-bottom:1px solid var(--l)}
+h1{font-size:1.3rem;margin:0 0 4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.open{font-size:.75rem;font-weight:700;border-radius:20px;padding:2px 8px;background:#e8f5e9;color:var(--g)}.open.no{background:#fdecec;color:var(--r)}
+.info{font-size:.83rem;color:var(--m);line-height:1.6}
+.links{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.links a,.links button{font-size:.83rem;border:1px solid var(--l);background:#fff;color:var(--t);border-radius:16px;padding:5px 10px;text-decoration:none}
+.notice{background:#fff7e0;color:#7a4b00;font-size:.9rem;padding:9px 16px;border-bottom:1px solid #f3e2b3}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 16px 6px}
+#q{width:100%;font-size:16px;padding:11px 12px;border:1px solid #cbd2d9;border-radius:10px;background:#fff}
+.chips{display:flex;gap:6px;overflow-x:auto;margin-top:8px;padding-bottom:2px;-webkit-overflow-scrolling:touch}
+.chip{flex:none;border:1px solid #cbd2d9;background:#fff;border-radius:16px;padding:6px 12px;font-size:.85rem;color:var(--t)}.chip.on{background:var(--b);border-color:var(--b);color:#fff;font-weight:700}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;font-size:.87rem;color:var(--m)}
+.btn{border:1px solid var(--b);background:#fff;color:var(--b);border-radius:8px;padding:7px 10px;font-size:.87rem;font-weight:600}.btn.fill{background:var(--b);color:#fff}
+#title{font-weight:700;color:var(--t)}.time{font-size:.77rem;color:var(--m);margin-top:4px}
+ul{list-style:none;margin:0;padding:0 12px 20px}
+li.g{background:#fff;border:1px solid var(--l);border-radius:12px;margin:8px 0;overflow:hidden}
+.row{padding:12px 14px;display:flex;justify-content:space-between;gap:10px;cursor:pointer}
+.nm{font-weight:700;font-size:1.03rem;line-height:1.35}.sub{font-size:.8rem;color:var(--m);margin-top:3px}
+.bd{display:inline-block;font-size:.68rem;font-weight:800;border-radius:4px;padding:1px 5px;margin-left:5px;vertical-align:2px}.bd.n{background:#e0ecff;color:var(--b)}.bd.s{background:#fdecec;color:var(--r)}
+.rt{text-align:right;white-space:nowrap}.pr{font-weight:700}.was{font-size:.78rem;color:var(--m);text-decoration:line-through;margin-right:4px;font-weight:400}
+.st{font-size:.83rem;margin-top:3px;color:var(--g)}.so{color:var(--r)}
+.opts{border-top:1px solid var(--l);background:#fafbfc}.desc{padding:9px 14px;font-size:.87rem;color:#374151;border-bottom:1px solid #eef0f2}
+.op{padding:10px 14px;border-bottom:1px solid #eef0f2}.op:last-child{border-bottom:0}
+.oh{display:flex;justify-content:space-between;gap:8px}.on{font-weight:600}.ph{font-size:.8rem;color:var(--b);font-weight:600;margin-left:4px}
+.add{margin-top:6px;border:1px solid var(--b);background:#fff;color:var(--b);border-radius:8px;padding:5px 12px;font-size:.85rem;font-weight:700}
+.op img{display:block;width:100%;max-width:420px;margin:8px auto 2px;border-radius:8px;background:#eee}
+.wh{font-size:.75rem;color:#8a5a00;background:#fff3cd;border-radius:4px;padding:1px 5px;margin-left:4px}
+.ss{display:inline-block;margin:8px 14px 12px;font-size:.87rem;color:#03a94d;font-weight:700;text-decoration:none}
+.empty{text-align:center;color:var(--m);padding:40px 16px}
+#cartbar{position:fixed;left:0;right:0;bottom:0;background:var(--b);color:#fff;display:none;align-items:center;justify-content:space-between;padding:12px 16px;font-weight:700;z-index:9;box-shadow:0 -2px 8px rgba(0,0,0,.15)}
+#cartbar button{background:#fff;color:var(--b);border:0;border-radius:8px;padding:7px 12px;font-weight:800;font-size:.9rem}
+#sheet{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;z-index:20}
+#sheet .p{position:absolute;left:0;right:0;bottom:0;max-height:88vh;overflow:auto;background:#fff;border-radius:16px 16px 0 0;padding:16px}
+.ci{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid #eef0f2}
+.qt{display:flex;align-items:center;gap:6px}.qt button{width:30px;height:30px;border:1px solid #cbd2d9;background:#fff;border-radius:6px;font-size:1rem}
+.tot{display:flex;justify-content:space-between;font-weight:800;font-size:1.1rem;margin:12px 0}
+#qrbox{text-align:center}#qrbox img,#qrbox canvas{width:78vw;max-width:340px;height:auto;image-rendering:pixelated}
+</style></head><body>
+<header><h1><span id="store">상품 찾기</span><span id="open"></span></h1><div class="info" id="info"></div><div class="links" id="links"></div></header>
+<div class="notice" id="notice" style="display:none"></div>
+<div class="top"><input id="q" type="search" placeholder="상품명·초성으로 찾기 (예: 에기, ㅇㄱ)" autocomplete="off">
+<div class="chips" id="chips"></div>
+<div class="bar"><span id="title"></span><span id="sw"></span></div><div class="time" id="time"></div></div>
+<ul id="list"><li class="empty">불러오는 중…</li></ul>
+<div id="cartbar"><span id="cartsum"></span><button id="cartopen">장바구니 보기</button></div>
+<div id="sheet"><div class="p" id="sheetp"></div></div>
+<script>
+/*__DATA__*/
+var P=new URLSearchParams(location.search),SH=P.get("s")||"",ALL=null,SHD=null,mode=SH?"shelf":"all",chip="";
+var $=function(i){return document.getElementById(i)};
+function get(u){if(window.__D&&window.__D[u])return Promise.resolve(window.__D[u]);return fetch(u,{cache:"no-cache"}).then(function(r){if(!r.ok)throw r.status;return r.json()})}
+function won(x){return x.toLocaleString("ko-KR")+"원"}
+function stk(n){return n<=0?"품절":(n>10?"재고 10개 이상":"재고 "+n+"개")}
+var CH="ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ";
+function isCho(s){for(var i=0;i<s.length;i++)if(CH.indexOf(s[i])<0)return false;return s.length>0}
+function norm(s){return(s||"").replace(/\s+/g,"").toLowerCase()}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function pp(o){return o[5]!=null?o[5]:o[1]}
+var ST={},ZN={};function zn(c){return ZN[c]||(c+" 진열장")}
+/* ---------- 머리 ---------- */
+function openState(){if(!ST.op||!ST.cl)return"";var d=new Date(),days="일월화수목금토",today=days[d.getDay()];
+ if((ST.off||[]).indexOf(today)>=0)return'<span class="open no">오늘 휴무</span>';
+ var m=d.getHours()*60+d.getMinutes(),a=ST.op.split(":"),b=ST.cl.split(":"),o=+a[0]*60+ +(a[1]||0),c=+b[0]*60+ +(b[1]||0);
+ var on=c>o?(m>=o&&m<c):(m>=o||m<c);return on?'<span class="open">영업 중</span>':'<span class="open no">영업 전·마감</span>'}
+function head(d){ST=d.st||{};ZN=d.zn||{};$("store").textContent=ST.n||"상품 찾기";document.title=(ST.n||"")+" 상품 찾기";$("open").innerHTML=openState();
+ var h=[];if(ST.h)h.push("영업시간 "+esc(ST.h));if(ST.off&&ST.off.length)h.push("휴무 "+esc(ST.off.join("·")));if(ST.a)h.push(esc(ST.a));$("info").innerHTML=h.join(" · ");
+ var l=[];if(ST.p)l.push('<a href="tel:'+esc(ST.p.replace(/[^0-9+]/g,""))+'">📞 전화</a>');
+ l.push('<a target="_blank" rel="noopener" href="'+esc(ST.m||("https://map.naver.com/p/search/"+encodeURIComponent(ST.a||ST.n||"")))+'">📍 지도</a>');
+ if(ST.k)l.push('<a target="_blank" rel="noopener" href="'+esc(ST.k)+'">💬 문의</a>');
+ if(ST.ti)l.push('<a target="_blank" rel="noopener" href="'+esc(ST.ti)+'">🌊 물때</a>');
+ if(ST.wx)l.push('<a target="_blank" rel="noopener" href="'+esc(ST.wx)+'">☀️ 날씨</a>');
+ l.push('<button id="big">가 글자 크게</button>');$("links").innerHTML=l.join("");
+ $("big").onclick=function(){var r=document.documentElement;r.classList.toggle("big");this.textContent=r.classList.contains("big")?"가 글자 작게":"가 글자 크게"};
+ if(ST.nt){$("notice").textContent="📢 "+ST.nt;$("notice").style.display="block"}
+ $("time").textContent=d.t+" 기준 (재고는 실시간이 아니에요)"}
+/* ---------- 목록 ---------- */
+function chips(){var c=$("chips");if(mode!=="all"||!ALL||$("q").value.trim()){c.style.display="none";return}c.style.display="flex";
+ var list=[["","전체"]];if(ALL.nw&&ALL.nw.length)list.push(["new","NEW 새로 들어옴"]);if(ALL.top&&ALL.top.length)list.push(["top","요즘 잘 나가요"]);
+ (ALL.col||[]).forEach(function(x,i){list.push(["c"+i,x[0]])});
+ c.innerHTML=list.map(function(x){return'<button class="chip'+(x[0]===chip?" on":"")+'" data-k="'+x[0]+'">'+esc(x[1])+'</button>'}).join("");
+ var b=c.querySelectorAll(".chip");for(var i=0;i<b.length;i++)b[i].onclick=function(){chip=this.getAttribute("data-k");show()}}
+function render(groups,title){
+ $("title").textContent=title;var sw=$("sw");sw.innerHTML="";
+ if(SH){var b=document.createElement("button");b.className="btn";
+  if(mode==="shelf"){b.textContent="매장 상품 전체보기";b.onclick=function(){go("all")}}
+  else{b.textContent=zn(SH)+" 상품으로 돌아가기";b.className="btn fill";b.onclick=function(){$("q").value="";chip="";go("shelf")}}
+  sw.appendChild(b)}
+ chips();var ul=$("list");if(!groups.length){ul.innerHTML='<li class="empty">찾는 상품이 없어요. 직원에게 문의해 주세요.</li>';return}
+ var lim=groups.slice(0,300),h=[];
+ for(var i=0;i<lim.length;i++){var g=lim[i],ps=[],tot=0,locs=[],sale=false;
+  for(var j=0;j<g.o.length;j++){var o=g.o[j];if(pp(o)!=null)ps.push(pp(o));if(o[5]!=null)sale=true;tot+=Math.max(0,o[2]);if(o[3]&&locs.indexOf(o[3])<0)locs.push(o[3])}
+  var mn=ps.length?Math.min.apply(0,ps):0,mx=ps.length?Math.max.apply(0,ps):0;
+  var pr=ps.length?(mn===mx?won(mn):won(mn)+"~"):"가격 문의";
+  if(g.o.length===1&&g.o[0][5]!=null&&g.o[0][1]!=null)pr='<span class="was">'+won(g.o[0][1])+'</span>'+pr;
+  var sub=(g.o.length>1?"옵션 "+g.o.length+"개 · ":"")+(locs.length?locs.slice(0,2).join(", ")+(locs.length>2?" 외":""):"위치는 직원에게 문의");
+  h.push('<li class="g" data-i="'+i+'"><div class="row"><div><div class="nm">'+esc(g.n)+(g.w?'<span class="bd n">NEW</span>':'')+(sale?'<span class="bd s">SALE</span>':'')+'</div><div class="sub">'+esc(sub)+'</div></div><div class="rt"><div class="pr">'+pr+'</div><div class="st'+(tot<=0?" so":"")+'">'+(tot<=0?"품절":(g.o.length>1?"재고 있음":stk(g.o[0][2])))+'</div></div></div></li>')}
+ if(groups.length>300)h.push('<li class="empty">결과가 많아요. 검색어를 더 입력해 주세요.</li>');
+ ul.innerHTML=h.join("");
+ var lis=ul.querySelectorAll("li.g");for(var k=0;k<lis.length;k++)(function(li){li.firstChild.onclick=function(){toggle(li,lim[+li.getAttribute("data-i")])}})(lis[k])}
+function toggle(li,g){var ex=li.querySelector(".opts");if(ex){li.removeChild(ex);return}
+ var d=document.createElement("div");d.className="opts";var h=[],one=g.o.length===1;
+ if(g.d)h.push('<div class="desc">'+esc(g.d)+'</div>');
+ for(var j=0;j<g.o.length;j++){var o=g.o[j],pr=pp(o);
+  h.push('<div class="op" data-j="'+j+'"><div class="oh"><div><div class="on">'+esc(o[0]||g.n)+(o[4]&&!one?' <span class="ph">사진 ▾</span>':'')+'</div><div class="sub">'+esc(o[3]||"위치는 직원에게 문의")+(o[6]?'<span class="wh">창고 보관</span>':'')+'</div></div><div class="rt"><div class="pr">'+(o[5]!=null&&o[1]!=null?'<span class="was">'+won(o[1])+'</span>':'')+(pr!=null?won(pr):"가격 문의")+'</div><div class="st'+(o[2]<=0?" so":"")+'">'+stk(o[2])+'</div>'+(o[2]>0&&pr!=null&&o[7]!=null?'<button class="add">담기</button>':'')+'</div></div>'+(o[4]&&one?'<img alt="" src="img/'+o[4]+'.webp">':'')+'</div>')}
+ if(g.l&&ST.s)h.push('<a class="ss" href="'+esc(ST.s.replace(/\/$/,""))+'/products/'+esc(g.l)+'" target="_blank" rel="noopener">스마트스토어에서 보기 ›</a>');
+ d.innerHTML=h.join("");li.appendChild(d);
+ var ops=d.querySelectorAll(".op");for(var q=0;q<ops.length;q++)(function(op){var o=g.o[+op.getAttribute("data-j")];
+  var ab=op.querySelector(".add");if(ab)ab.onclick=function(e){e.stopPropagation();addCart(g,o);ab.textContent="담았어요 ✓";setTimeout(function(){ab.textContent="담기"},1200)};
+  if(!o[4]||one)return;op.onclick=function(){var x=op.querySelector("img"),ph=op.querySelector(".ph");if(x){op.removeChild(x);if(ph)ph.textContent="사진 ▾";return}
+   var e=document.createElement("img");e.alt="";e.src="img/"+o[4]+".webp";op.appendChild(e);if(ph)ph.textContent="사진 ▴"}})(ops[q])}
+function search(list,q){q=norm(q);if(!q)return list;var c=isCho(q),out=[];
+ for(var i=0;i<list.length;i++){var g=list[i],hay=c?g.c:(norm(g.n)+"|"+norm(g.k||"")+"|"+g.q);if(hay.indexOf(q)>=0)out.push(g)}return out}
+function needAll(){return ALL?Promise.resolve(ALL):get("data/all.json").then(function(d){ALL=d;return d})}
+function pick(d,ids){return(ids||[]).map(function(i){return d.g[i]}).filter(Boolean)}
+function show(){var q=$("q").value.trim();
+ if(mode==="shelf"&&!q){render(SHD.g,zn(SH)+" 상품");return}
+ needAll().then(function(d){if(q){var r=search(d.g,q);render(r,"‘"+q+"’ 검색 결과 "+r.length+"개");return}
+  if(chip==="new")render(pick(d,d.nw),"새로 들어온 상품");else if(chip==="top")render(pick(d,d.top),"요즘 잘 나가는 상품");
+  else if(chip[0]==="c"&&d.col&&d.col[+chip.slice(1)]){var c=d.col[+chip.slice(1)];render(pick(d,c[1]),c[0])}
+  else{chip="";render(d.g,"매장 전체 상품 "+d.g.length+"개")}})}
+function go(m,nopush){mode=m;if(!nopush&&SH)history.pushState({m:m},"",location.pathname+"?s="+encodeURIComponent(SH)+(m==="all"?"&v=all":""));show();window.scrollTo(0,0)}
+window.onpopstate=function(e){mode=(e.state&&e.state.m)||(P.get("v")==="all"?"all":(SH?"shelf":"all"));if(mode==="shelf")$("q").value="";if($("sheet").style.display==="block"){$("sheet").style.display="none"}show()};
+var tmr;$("q").oninput=function(){clearTimeout(tmr);tmr=setTimeout(function(){if(SH&&mode==="shelf"&&$("q").value.trim()){mode="all";history.pushState({m:"all"},"",location.pathname+"?s="+encodeURIComponent(SH)+"&v=all")}show()},180)};
+/* ---------- 장바구니 (탭을 닫으면 사라지는 임시 저장) ---------- */
+var CART=[];try{CART=JSON.parse(sessionStorage.getItem("cart")||"[]")||[]}catch(e){CART=[]}
+function saveCart(){try{sessionStorage.setItem("cart",JSON.stringify(CART))}catch(e){}cartBar()}
+function addCart(g,o){var f=CART.filter(function(x){return x.p===o[7]})[0];if(f){if(f.q<99)f.q++}else CART.push({p:o[7],n:g.n,o:o[0]||"",pr:pp(o),w:o[6]?1:0,q:1});saveCart()}
+function cartBar(){var n=0,t=0;CART.forEach(function(x){n+=x.q;t+=x.q*x.pr});var b=$("cartbar");
+ if(!n){b.style.display="none";return}b.style.display="flex";$("cartsum").textContent="🛒 "+n+"개 · "+won(t)}
+function openCart(){var p=$("sheetp"),t=0,h=['<div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:1.1rem">장바구니</b><button class="btn" id="cx">닫기</button></div>'];
+ if(!CART.length)h.push('<p class="empty">담은 상품이 없어요.</p>');
+ CART.forEach(function(x,i){t+=x.q*x.pr;h.push('<div class="ci"><div><div class="on">'+esc(x.n)+'</div><div class="sub">'+esc(x.o)+(x.w?'<span class="wh">창고에서 가져다 드려요</span>':'')+'</div><div class="sub">'+won(x.pr)+'</div></div><div class="qt"><button data-i="'+i+'" data-d="-1">−</button><b>'+x.q+'</b><button data-i="'+i+'" data-d="1">+</button></div></div>')});
+ if(CART.length){h.push('<div class="tot"><span>합계</span><span>'+won(t)+'</span></div><button class="btn fill" id="cq" style="width:100%;padding:12px;font-size:1rem">카운터에 보여 주기 (QR)</button><div id="qrbox"></div><button class="btn" id="cc" style="width:100%;margin-top:10px">장바구니 비우기</button>')}
+ p.innerHTML=h.join("");$("sheet").style.display="block";$("cx").onclick=function(){$("sheet").style.display="none"};
+ var qb=p.querySelectorAll(".qt button");for(var k=0;k<qb.length;k++)qb[k].onclick=function(){var i=+this.getAttribute("data-i"),d=+this.getAttribute("data-d");CART[i].q+=d;if(CART[i].q<=0)CART.splice(i,1);saveCart();openCart()};
+ if($("cc"))$("cc").onclick=function(){if(confirm("장바구니를 비울까요?")){CART=[];saveCart();openCart()}};
+ if($("cq"))$("cq").onclick=showQR}
+function cartCode(){return"9988"+CART.map(function(x){return("00000"+x.p).slice(-5)+("0"+Math.min(99,x.q)).slice(-2)}).join("")}
+function showQR(){var box=$("qrbox");box.innerHTML='<p class="sub">QR 만드는 중…</p>';
+ function draw(){var q=qrcode(0,"M");q.addData(cartCode(),"Numeric");q.make();box.innerHTML='<p style="font-weight:700;margin:12px 0 4px">카운터 직원에게 이 화면을 보여 주세요</p>'+q.createImgTag(8,8)}
+ if(window.qrcode)return draw();var s=document.createElement("script");s.src="qr.js";s.onload=draw;s.onerror=function(){box.innerHTML='<p class="so">QR을 만들지 못했어요. 이 목록을 직원에게 보여 주세요.</p>'};document.head.appendChild(s)}
+$("cartopen").onclick=openCart;$("sheet").onclick=function(e){if(e.target===this)this.style.display="none"};
+/* ---------- 시작 ---------- */
+(SH?get("data/s/"+encodeURIComponent(SH)+".json").then(function(d){SHD=d;head(d);if(P.get("v")==="all")mode="all";history.replaceState({m:mode},"");show()}).catch(function(){SH="";mode="all";return needAll().then(function(d){head(d);show()})})
+ :needAll().then(function(d){head(d);show()})).catch(function(){$("list").innerHTML='<li class="empty">상품 목록을 불러오지 못했어요. 잠시 후 다시 열어 주세요.</li>'});
+cartBar();
+</script></body></html>
