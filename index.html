@@ -11,7 +11,7 @@ h1{font-size:1.3rem;margin:0 0 4px;display:flex;align-items:center;gap:8px;flex-
 .open{font-size:.75rem;font-weight:700;border-radius:20px;padding:2px 8px;background:#e8f5e9;color:var(--g)}.open.no{background:#fdecec;color:var(--r)}
 .info{font-size:.83rem;color:var(--m);line-height:1.6}
 .links{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.links a,.links button{font-size:.83rem;border:1px solid var(--l);background:#fff;color:var(--t);border-radius:16px;padding:5px 10px;text-decoration:none}
-.rec{display:flex;gap:10px;overflow-x:auto;padding:10px 16px;background:#fff;border-bottom:1px solid var(--l);-webkit-overflow-scrolling:touch}.rec .ri{flex:none;width:84px;text-align:center;text-decoration:none;color:var(--t)}.rec .ri img,.rec .ri .ph{width:72px;height:72px;border-radius:10px;object-fit:cover;background:#eef0f3;display:block;margin:0 auto 4px;border:1px solid var(--l)}.rec .ri span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:.74rem;line-height:1.25}.rec .tt{flex:none;align-self:center;font-size:.72rem;font-weight:700;color:var(--b);writing-mode:horizontal-tb;max-width:44px;line-height:1.2}
+.rec{padding:12px 0 10px;background:#fff;border-bottom:1px solid var(--l)}.rec .rr{display:flex;gap:10px;overflow-x:auto;padding:0 16px;-webkit-overflow-scrolling:touch}.rec .ri{flex:none;width:84px;text-align:center;text-decoration:none;color:var(--t)}.rec .ri img,.rec .ri .ph{width:72px;height:72px;border-radius:10px;object-fit:cover;background:#eef0f3;display:block;margin:0 auto 4px;border:1px solid var(--l)}.rec .ri span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:.74rem;line-height:1.25}.rec .tt{font-size:1.35rem;font-weight:800;color:var(--b);line-height:1.2;padding:0 16px 8px}
 .notice{background:#fff7e0;color:#7a4b00;font-size:.9rem;padding:9px 16px;border-bottom:1px solid #f3e2b3}
 .top{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 16px 6px}
 #q{width:100%;font-size:16px;padding:11px 12px;border:1px solid #cbd2d9;border-radius:10px;background:#fff}
@@ -83,8 +83,8 @@ function head(d){ST=d.st||{};ZN=d.zn||{};$("store").textContent=ST.n||"상품 �
  l.push('<button id="big">가 글자 크게</button>');$("links").innerHTML=l.join("");
  $("big").onclick=function(){var r=document.documentElement;r.classList.toggle("big");this.textContent=r.classList.contains("big")?"가 글자 작게":"가 글자 크게"};
  if(ST.nt){$("notice").textContent="📢 "+ST.nt;$("notice").style.display="block"}
- var rc=ST.rc||[],rb=$("rec");if(rc.length){var rh=['<div class="tt">⭐ 추천</div>'];for(var ri=0;ri<rc.length;ri++){var x=rc[ri],im=x[1]?'<img alt="" src="img/'+x[1]+'_t.webp" onerror="this.onerror=null;this.src=\'img/'+x[1]+'.webp\'">':'<div class="ph"></div>',inner=im+'<span>'+esc(x[0])+'</span>';
-  rh.push(/^https?:\/\//i.test(x[2]||"")?'<a class="ri" target="_blank" rel="noopener" href="'+esc(x[2])+'">'+inner+'</a>':'<div class="ri">'+inner+'</div>')}rb.innerHTML=rh.join("");rb.style.display="flex"}else{rb.style.display="none"}
+ var rc=ST.rc||[],rb=$("rec");if(rc.length){var rh=[];for(var ri=0;ri<rc.length;ri++){var x=rc[ri],im=x[1]?'<img alt="" src="img/'+x[1]+'_t.webp" onerror="this.onerror=null;this.src=\'img/'+x[1]+'.webp\'">':'<div class="ph"></div>',inner=im+'<span>'+esc(x[0])+'</span>';
+  rh.push(/^https?:\/\//i.test(x[2]||"")?'<a class="ri" target="_blank" rel="noopener" href="'+esc(x[2])+'">'+inner+'</a>':'<div class="ri">'+inner+'</div>')}rb.innerHTML='<div class="tt">⭐ 추천상품</div><div class="rr">'+rh.join("")+'</div>';rb.style.display="block"}else{rb.style.display="none"}
  $("time").textContent=d.t+(ST.ns?" 기준":" 기준 (재고는 실시간이 아니에요)")}
 /* ---------- 목록 ---------- */
 function chips(){var c=$("chips");if(mode!=="all"||!ALL||$("q").value.trim()){c.style.display="none";return}c.style.display="flex";
