@@ -16,11 +16,13 @@ h1{font-size:1.3rem;margin:0 0 4px;display:flex;align-items:center;gap:8px;flex-
 .rec2 .tt{font-size:1.35rem;font-weight:800;color:var(--b);line-height:1.2;padding:0 16px 8px}.rec2 .tt small{font-size:.78rem;font-weight:600;color:#6b7280;margin-left:8px}
 .rec2 .rr{display:flex;gap:10px;overflow-x:auto;padding:0 16px;scroll-snap-type:x mandatory;scroll-padding-left:16px;-webkit-overflow-scrolling:touch;scrollbar-width:none}.rec2 .rr::-webkit-scrollbar{display:none}
 .rec2 .ri{flex:none;width:calc((100vw - 64px)/2);max-width:250px;scroll-snap-align:start;text-decoration:none;color:var(--t)}
-.rec2 .ri img,.rec2 .ri .ph{width:100%;aspect-ratio:4/3;border-radius:12px;object-fit:cover;background:#eef0f3;display:block;margin:0 0 6px;border:1px solid var(--l)}
+.rec2 .ri img{width:100%;height:auto;border-radius:12px;background:#eef0f3;display:block;margin:0 0 6px;border:1px solid var(--l)}
+.rec2 .ri .ph{width:100%;aspect-ratio:4/3;border-radius:12px;background:#eef0f3;display:block;margin:0 0 6px;border:1px solid var(--l)}
 .rec2 .ri span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:.88rem;font-weight:600;line-height:1.3}
 .rec2 .arr{position:absolute;right:0;top:44px;height:calc((100vw - 64px)/2*.75);max-height:187px;width:38px;display:flex;align-items:center;justify-content:center;font-size:1.9rem;font-weight:800;color:var(--b);background:linear-gradient(to left,rgba(255,255,255,.96),rgba(255,255,255,0));pointer-events:none;animation:nudge 1.4s ease-in-out infinite;transition:opacity .2s}.rec2 .arr.end{opacity:0}
 @keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(-5px)}}
 .rec2 .dots{display:flex;justify-content:center;gap:6px;padding:8px 0 0}.rec2 .dots i{width:7px;height:7px;border-radius:50%;background:#cfd6e0}.rec2 .dots i.on{background:var(--b);width:18px;border-radius:4px}
+.ri.go{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .notice{background:#fff7e0;color:#7a4b00;font-size:.9rem;padding:9px 16px;border-bottom:1px solid #f3e2b3}
 .top{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 16px 6px}
 #q{width:100%;font-size:16px;padding:11px 12px;border:1px solid #cbd2d9;border-radius:10px;background:#fff}
@@ -94,9 +96,9 @@ function head(d){ST=d.st||{};ZN=d.zn||{};$("store").textContent=ST.n||"상품 �
  $("big").onclick=function(){var r=document.documentElement;r.classList.toggle("big");this.textContent=r.classList.contains("big")?"가 글자 작게":"가 글자 크게"};
  if(ST.nt){$("notice").textContent="📢 "+ST.nt;$("notice").style.display="block"}
  var rc=ST.rc||[],rb=$("rec");if(rc.length){var rh=[];for(var ri=0;ri<rc.length;ri++){var x=rc[ri],im=x[1]?'<img alt="" src="img/'+x[1]+'_t.webp" onerror="this.onerror=null;this.src=\'img/'+x[1]+'.webp\'">':'<div class="ph"></div>',inner=im+'<span>'+esc(x[0])+'</span>';
-  rh.push(/^https?:\/\//i.test(x[2]||"")?'<a class="ri" target="_blank" rel="noopener" href="'+esc(x[2])+'">'+inner+'</a>':'<div class="ri">'+inner+'</div>')}rb.innerHTML='<div class="tt">🆕 새로 들어왔어요</div><div class="rr">'+rh.join("")+'</div>';rb.style.display="block"}else{rb.style.display="none"}
+  rh.push('<div class="ri go" data-q="'+esc(x[3]||x[0])+'">'+inner+'</div>')}rb.innerHTML='<div class="tt">🆕 새로 들어왔어요</div><div class="rr">'+rh.join("")+'</div>';rb.style.display="block"}else{rb.style.display="none"}
  var r2=ST.rc2||[],b2=$("rec2");if(r2.length){var h2=[];for(var i2=0;i2<r2.length;i2++){var y=r2[i2],m2=y[1]?'<img alt="" loading="lazy" src="img/'+y[1]+'.webp">':'<div class="ph"></div>',in2=m2+(y[0]?'<span>'+esc(y[0])+'</span>':'');
-  h2.push(/^https?:\/\//i.test(y[2]||"")?'<a class="ri" target="_blank" rel="noopener" href="'+esc(y[2])+'">'+in2+'</a>':'<div class="ri">'+in2+'</div>')}
+  h2.push('<div class="ri go" data-q="'+esc(y[3]||y[0])+'">'+in2+'</div>')}
  var mo=r2.length>2,d2="";if(mo){for(var k2=0;k2<r2.length;k2++)d2+='<i'+(k2?'':' class="on"')+'></i>'}
  b2.innerHTML='<div class="tt">⭐ 추천상품'+(mo?'<small>옆으로 밀어서 더 보기 ›</small>':'')+'</div><div class="rr" id="rr2">'+h2.join("")+'</div>'+(mo?'<div class="arr" id="rarr2">›</div><div class="dots" id="rdots2">'+d2+'</div>':'');b2.style.display="block";
  if(mo){var q2=$("rr2"),a2=$("rarr2"),o2=$("rdots2").children;q2.addEventListener("scroll",function(){var w=q2.firstChild.offsetWidth+10,k=Math.round(q2.scrollLeft/w),en=q2.scrollLeft+q2.clientWidth>=q2.scrollWidth-4;if(en)k=o2.length-1;for(var j=0;j<o2.length;j++)o2[j].className=j===k?"on":"";a2.className=en?"arr end":"arr"},{passive:true})}}else{b2.style.display="none"}
@@ -169,6 +171,9 @@ function showQR(){var box=$("qrbox");box.innerHTML='<p class="sub">QR 만드는 
  function draw(){var q=qrcode(0,"M");q.addData(cartCode(),"Numeric");q.make();box.innerHTML='<p style="font-weight:700;margin:12px 0 4px">카운터 직원에게 이 화면을 보여 주세요</p>'+q.createImgTag(8,8)}
  if(window.qrcode)return draw();var s=document.createElement("script");s.src="qr.js";s.onload=draw;s.onerror=function(){box.innerHTML='<p class="so">QR을 만들지 못했어요. 이 목록을 직원에게 보여 주세요.</p>'};document.head.appendChild(s)}
 $("cartopen").onclick=openCart;$("sheet").onclick=function(e){if(e.target===this)this.style.display="none"};
+/* ---------- 추천 사진을 누르면 아래 목록에서 그 상품 찾기 ---------- */
+function recGo(q){if(!q)return;if(SH&&mode==='shelf'){mode='all';history.pushState({m:'all'},'',location.pathname+'?s='+encodeURIComponent(SH)+'&v=all')}chip='';$('q').value=q;show();setTimeout(function(){var li=document.querySelectorAll('#list li.g'),tp=$('list').getBoundingClientRect().top+window.pageYOffset-document.querySelector('.top').offsetHeight-6;window.scrollTo({top:Math.max(0,tp),behavior:'smooth'});if(li.length===1&&!li[0].querySelector('.opts'))li[0].firstChild.click()},300)}
+document.addEventListener('click',function(e){var t=e.target.closest?e.target.closest('.ri.go'):null;if(t)recGo(t.getAttribute('data-q'))});
 /* ---------- 시작 ---------- */
 (SH?get("data/s/"+encodeURIComponent(SH)+".json").then(function(d){SHD=d;head(d);if(P.get("v")==="all")mode="all";history.replaceState({m:mode},"");show()}).catch(function(){SH="";mode="all";return needAll().then(function(d){head(d);show()})})
  :needAll().then(function(d){head(d);show()})).catch(function(){$("list").innerHTML='<li class="empty">상품 목록을 불러오지 못했어요. 잠시 후 다시 열어 주세요.</li>'});
