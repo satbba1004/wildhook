@@ -89,7 +89,8 @@ function head(d){ST=d.st||{};ZN=d.zn||{};$("store").textContent=ST.n||"상품 �
  var h=[];if(ST.h)h.push("영업시간 "+esc(ST.h));if(ST.off&&ST.off.length)h.push("휴무 "+esc(ST.off.join("·")));if(ST.a)h.push(esc(ST.a));$("info").innerHTML=h.join(" · ");
  var l=[];if(ST.p)l.push('<a href="tel:'+esc(ST.p.replace(/[^0-9+]/g,""))+'">📞 전화</a>');
  l.push('<a target="_blank" rel="noopener" href="'+esc(ST.m||("https://map.naver.com/p/search/"+encodeURIComponent(ST.a||ST.n||"")))+'">📍 지도</a>');
- if(ST.k)l.push('<a target="_blank" rel="noopener" href="'+esc(ST.k)+'">💬 문의</a>');
+ if(ST.k)l.push('<a target="_blank" rel="noopener" href="'+esc(ST.k)+'">💬 톡톡·카톡 문의</a>');
+ if(ST.sm)l.push('<a href="sms:'+esc(ST.sm)+'">✉️ 문자</a>');
  if(ST.ti)l.push('<a target="_blank" rel="noopener" href="'+esc(ST.ti)+'">🌊 물때</a>');
  if(ST.wx)l.push('<a target="_blank" rel="noopener" href="'+esc(ST.wx)+'">☀️ 날씨</a>');
  l.push('<button id="big">가 글자 크게</button>');$("links").innerHTML=l.join("");
