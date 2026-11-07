@@ -2,6 +2,7 @@
 <html lang="ko"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>상품 찾기</title>
+<meta name="theme-color" content="#0E7A3E"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/icon-180.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="와일드훅"><meta name="apple-mobile-web-app-status-bar-style" content="default">
 <style>
 :root{--b:#2563eb;--t:#1f2933;--m:#6b7785;--l:#e5e7eb;--bg:#f6f7f9;--r:#c62828;--g:#2e7d32}
 *{box-sizing:border-box}html{font-size:15px}html.big{font-size:18.5px}
@@ -60,6 +61,7 @@ li.g{background:#fff;border:1px solid var(--l);border-radius:12px;margin:8px 0;o
 </style></head><body>
 <div id="bn"></div>
 <header><h1><span id="store">상품 찾기</span><span id="open"></span></h1><div class="info" id="info"></div><div class="links" id="links"></div></header>
+<div id="a2hs" style="display:none;align-items:center;gap:8px;padding:8px 16px;background:#0E7A3E;color:#fff;font-size:.88rem"><span style="flex:1">📲 와일드훅을 홈 화면에 추가하면 앱처럼 열려요</span><button id="a2go" style="background:#fff;color:#0E7A3E;border:0;border-radius:14px;padding:5px 12px;font-weight:700">추가</button><button id="a2x" style="background:transparent;color:#fff;border:0;font-size:1.1rem">✕</button></div>
 <div class="notice" id="notice" style="display:none"></div>
 <div class="rec" id="rec" style="display:none"></div>
 <div class="rec2" id="rec2" style="display:none"></div>
@@ -156,24 +158,45 @@ function show(){var q=$("q").value.trim();
 function go(m,nopush){mode=m;if(!nopush&&SH)history.pushState({m:m},"",location.pathname+"?s="+encodeURIComponent(SH)+(m==="all"?"&v=all":""));show();window.scrollTo(0,0)}
 window.onpopstate=function(e){mode=(e.state&&e.state.m)||(P.get("v")==="all"?"all":(SH?"shelf":"all"));if(mode==="shelf")$("q").value="";if($("sheet").style.display==="block"){$("sheet").style.display="none"}show()};
 var tmr;$("q").oninput=function(){clearTimeout(tmr);tmr=setTimeout(function(){if(SH&&mode==="shelf"&&$("q").value.trim()){mode="all";history.pushState({m:"all"},"",location.pathname+"?s="+encodeURIComponent(SH)+"&v=all")}show()},180)};
-/* ---------- 장바구니 (탭을 닫으면 사라지는 임시 저장) ---------- */
-var CART=[];try{CART=JSON.parse(sessionStorage.getItem("cart")||"[]")||[]}catch(e){CART=[]}
-function saveCart(){try{sessionStorage.setItem("cart",JSON.stringify(CART))}catch(e){}cartBar()}
+/* ---------- 장바구니 (폰에 30일 동안 보관) ---------- */
+function loadCart(){try{var r=JSON.parse(localStorage.getItem("cart2")||"null");if(r&&r.items&&r.t&&(Date.now()-r.t)<30*864e5)return r.items}catch(e){}
+ try{return JSON.parse(sessionStorage.getItem("cart")||"[]")||[]}catch(e){}return[]}
+var CART=loadCart();
+function saveCart(){var j=JSON.stringify(CART);try{localStorage.setItem("cart2",JSON.stringify({t:Date.now(),items:CART}))}catch(e){}try{sessionStorage.setItem("cart",j)}catch(e){}cartBar()}
 function addCart(g,o){var f=CART.filter(function(x){return x.p===o[7]})[0];if(f){if(f.q<99)f.q++}else CART.push({p:o[7],n:g.n,o:o[0]||"",pr:pp(o),w:o[6]?1:0,q:1});saveCart()}
 function cartBar(){var n=0,t=0;CART.forEach(function(x){n+=x.q;t+=x.q*x.pr});var b=$("cartbar");
  if(!n){b.style.display="none";return}b.style.display="flex";$("cartsum").textContent="🛒 "+n+"개 · "+won(t)}
 function openCart(){var p=$("sheetp"),t=0,h=['<div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:1.1rem">장바구니</b><button class="btn" id="cx">닫기</button></div>'];
  if(!CART.length)h.push('<p class="empty">담은 상품이 없어요.</p>');
- CART.forEach(function(x,i){t+=x.q*x.pr;h.push('<div class="ci"><div><div class="on">'+esc(x.n)+'</div><div class="sub">'+esc(x.o)+(x.w?'<span class="wh">창고에서 가져다 드려요</span>':'')+'</div><div class="sub">'+won(x.pr)+'</div></div><div class="qt"><button data-i="'+i+'" data-d="-1">−</button><b>'+x.q+'</b><button data-i="'+i+'" data-d="1">+</button></div></div>')});
+ CART.forEach(function(x,i){t+=(x.so||x.gone?0:x.q*x.pr);h.push('<div class="ci"><div><div class="on">'+esc(x.n)+'</div><div class="sub">'+esc(x.o)+(x.w?'<span class="wh">창고에서 가져다 드려요</span>':'')+'</div><div class="sub">'+won(x.pr)+(x.op&&x.op!==x.pr?'<span style="color:#c62828;margin-left:6px">가격 변경 '+won(x.op)+' → '+won(x.pr)+'</span>':'')+(x.so?'<span style="color:#c62828;margin-left:6px;font-weight:700">품절</span>':'')+(x.gone?'<span style="color:#c62828;margin-left:6px;font-weight:700">지금은 판매 안 해요</span>':'')+'</div></div><div class="qt"><button data-i="'+i+'" data-d="-1">−</button><b>'+x.q+'</b><button data-i="'+i+'" data-d="1">+</button></div></div>')});
  if(CART.length){h.push('<div class="tot"><span>합계</span><span>'+won(t)+'</span></div><button class="btn fill" id="cq" style="width:100%;padding:12px;font-size:1rem">카운터에 보여 주기 (QR)</button><div id="qrbox"></div><button class="btn" id="cc" style="width:100%;margin-top:10px">장바구니 비우기</button>')}
  p.innerHTML=h.join("");$("sheet").style.display="block";$("cx").onclick=function(){$("sheet").style.display="none"};
  var qb=p.querySelectorAll(".qt button");for(var k=0;k<qb.length;k++)qb[k].onclick=function(){var i=+this.getAttribute("data-i"),d=+this.getAttribute("data-d");CART[i].q+=d;if(CART[i].q<=0)CART.splice(i,1);saveCart();openCart()};
  if($("cc"))$("cc").onclick=function(){if(confirm("장바구니를 비울까요?")){CART=[];saveCart();openCart()}};
- if($("cq"))$("cq").onclick=showQR}
-function cartCode(){return"9988"+CART.map(function(x){return("00000"+x.p).slice(-5)+("0"+Math.min(99,x.q)).slice(-2)}).join("")}
-function showQR(){var box=$("qrbox");box.innerHTML='<p class="sub">QR 만드는 중…</p>';
- function draw(){var q=qrcode(0,"M");q.addData(cartCode(),"Numeric");q.make();box.innerHTML='<p style="font-weight:700;margin:12px 0 4px">카운터 직원에게 이 화면을 보여 주세요</p>'+q.createImgTag(8,8)}
+ if($("cq"))$("cq").onclick=showQR;freshCart()}
+function cartCode(){return"9988"+CART.filter(function(x){return!x.so&&!x.gone}).map(function(x){return("00000"+x.p).slice(-5)+("0"+Math.min(99,x.q)).slice(-2)}).join("")}
+function showQR(){var box=$("qrbox");if(cartCode().length<=4){box.innerHTML='<p class="so">QR로 보낼 수 있는 상품이 없어요(품절이거나 지금은 판매 안 해요).</p>';return}box.innerHTML='<p class="sub">QR 만드는 중…</p>';
+ function draw(){var q=qrcode(0,"M");q.addData(cartCode(),"Numeric");q.make();box.innerHTML='<p style="font-weight:700;margin:12px 0 4px">카운터 직원에게 이 화면을 보여 주세요</p>'+q.createImgTag(8,8)+'<p class="sub">구매가 끝났으면 아래 [장바구니 비우기]를 눌러 주세요.</p>'}
  if(window.qrcode)return draw();var s=document.createElement("script");s.src="qr.js";s.onload=draw;s.onerror=function(){box.innerHTML='<p class="so">QR을 만들지 못했어요. 이 목록을 직원에게 보여 주세요.</p>'};document.head.appendChild(s)}
+/* ---------- 홈 화면에 추가 ---------- */
+var DIP=null;
+function isStandalone(){try{return(window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone===true}catch(e){return false}}
+function a2hs(){var b=$("a2hs");if(!b||isStandalone())return;var ios=/iphone|ipad|ipod/i.test(navigator.userAgent);if(!DIP&&!ios)return;
+ try{if(localStorage.getItem("a2hs_x")==="1")return}catch(e){}
+ b.style.display="flex";
+ $("a2go").onclick=function(){if(DIP){DIP.prompt();DIP=null;b.style.display="none"}else{alert("아래(또는 위) 공유 버튼 □↑ 을 누른 뒤 '홈 화면에 추가'를 눌러 주세요.")}};
+ $("a2x").onclick=function(){b.style.display="none";try{localStorage.setItem("a2hs_x","1")}catch(e){}}}
+window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();DIP=e;a2hs()});
+window.addEventListener("load",function(){setTimeout(a2hs,600)});
+/* ---------- 장바구니 신선도(가격·품절 확인) ---------- */
+var _fc=0;
+function freshCart(){if(_fc||!CART.length)return;_fc=1;
+ needAll().then(function(d){var ch=0,idx={};d.g.forEach(function(g){g.o.forEach(function(o){if(o[7]!=null)idx[o[7]]=o})});
+  CART.forEach(function(x){var o=idx[x.p];if(!o){if(!x.gone){x.gone=1;ch=1}return}
+   var pr=pp(o),so=(!ST.ns&&o[2]<=0)?1:0;if(x.gone){x.gone=0;ch=1}
+   if(pr!=null&&pr!==x.pr){x.op=x.pr;x.pr=pr;ch=1}
+   if(!!x.so!==!!so){x.so=so;ch=1}});
+  _fc=0;if(ch){saveCart();openCart()}}).catch(function(){_fc=0})}
 $("cartopen").onclick=openCart;$("sheet").onclick=function(e){if(e.target===this)this.style.display="none"};
 /* ---------- 추천 사진을 누르면 아래 목록에서 그 상품 찾기 ---------- */
 function recGo(q){if(!q)return;if(SH&&mode==='shelf'){mode='all';history.pushState({m:'all'},'',location.pathname+'?s='+encodeURIComponent(SH)+'&v=all')}chip='';$('q').value=q;show();setTimeout(function(){var li=document.querySelectorAll('#list li.g'),tp=$('list').getBoundingClientRect().top+window.pageYOffset-document.querySelector('.top').offsetHeight-6;window.scrollTo({top:Math.max(0,tp),behavior:'smooth'});if(li.length===1&&!li[0].querySelector('.opts'))li[0].firstChild.click()},300)}
