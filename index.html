@@ -61,7 +61,7 @@ li.g{background:#fff;border:1px solid var(--l);border-radius:12px;margin:8px 0;o
 </style></head><body>
 <div id="bn"></div>
 <header><h1><span id="store">상품 찾기</span><span id="open"></span></h1><div class="info" id="info"></div><div class="links" id="links"></div></header>
-<div id="a2hs" style="display:none;align-items:center;gap:8px;padding:8px 16px;background:#0E7A3E;color:#fff;font-size:.88rem"><span style="flex:1">📲 와일드훅을 홈 화면에 추가하면 앱처럼 열려요</span><button id="a2go" style="background:#fff;color:#0E7A3E;border:0;border-radius:14px;padding:5px 12px;font-weight:700">추가</button><button id="a2x" style="background:transparent;color:#fff;border:0;font-size:1.1rem">✕</button></div>
+<div id="a2hs" style="display:none;align-items:center;gap:8px;padding:8px 16px;background:#0E7A3E;color:#fff;font-size:.88rem"><span style="flex:1">📲 와일드훅을(를) 홈 화면에 추가하면 앱처럼 열려요</span><button id="a2go" style="background:#fff;color:#0E7A3E;border:0;border-radius:14px;padding:5px 12px;font-weight:700">추가</button><button id="a2x" style="background:transparent;color:#fff;border:0;font-size:1.1rem">✕</button></div>
 <div class="notice" id="notice" style="display:none"></div>
 <div class="rec" id="rec" style="display:none"></div>
 <div class="rec2" id="rec2" style="display:none"></div>
@@ -77,7 +77,7 @@ var P=new URLSearchParams(location.search),SH=P.get("s")||"",ALL=null,SHD=null,m
 var $=function(i){return document.getElementById(i)};
 function get(u){if(window.__D&&window.__D[u])return Promise.resolve(window.__D[u]);return fetch(u,{cache:"no-cache"}).then(function(r){if(!r.ok)throw r.status;return r.json()})}
 function won(x){return x.toLocaleString("ko-KR")+"원"}
-function stk(n){if(ST.ns)return"";return n<=0?"품절":(n>10?"재고 10개 이상":"재고 "+n+"개")}
+function stk(n){if(ST.ns)return"";return n<=0?"품절":"재고 있음"}
 var CH="ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ";
 function isCho(s){for(var i=0;i<s.length;i++)if(CH.indexOf(s[i])<0)return false;return s.length>0}
 function norm(s){return(s||"").replace(/\s+/g,"").toLowerCase()}
@@ -108,7 +108,7 @@ function head(d){ST=d.st||{};ZN=d.zn||{};$("store").textContent=ST.n||"상품 �
  b2.innerHTML='<div class="tt">⭐ 추천상품'+(mo?'<small>옆으로 밀어서 더 보기 ›</small>':'')+'</div><div class="rr" id="rr2">'+h2.join("")+'</div>'+(mo?'<div class="arr" id="rarr2">›</div><div class="dots" id="rdots2">'+d2+'</div>':'');b2.style.display="block";
  if(mo){var q2=$("rr2"),a2=$("rarr2"),o2=$("rdots2").children;q2.addEventListener("scroll",function(){var w=q2.firstChild.offsetWidth+10,k=Math.round(q2.scrollLeft/w),en=q2.scrollLeft+q2.clientWidth>=q2.scrollWidth-4;if(en)k=o2.length-1;for(var j=0;j<o2.length;j++)o2[j].className=j===k?"on":"";a2.className=en?"arr end":"arr"},{passive:true})}}else{b2.style.display="none"}
  var BN=ST.bn||[],bb=$('bn');if(window.__bt)clearInterval(window.__bt);if(BN.length){var dd=new Date(),pz=function(n){return(n<10?'0':'')+n},ymd=dd.getFullYear()+'-'+pz(dd.getMonth()+1)+'-'+pz(dd.getDate()),bl=BN.filter(function(x){return(!x[2]||x[2]<=ymd)&&(!x[3]||ymd<=x[3])});if(bl.length){bb.innerHTML='<div class=bnr id=bnr>'+bl.map(function(x,i){return'<div class=bni data-i='+i+(x[1]?' style=cursor:pointer':'')+'><img loading=lazy src=img/'+x[0]+'.webp></div>'}).join('')+'</div>'+(bl.length>1?'<div class=bnd id=bnd>'+bl.map(function(x,i){return'<i'+(i?'':' class=on')+'></i>'}).join('')+'</div>':'');bb.style.display='block';var br=$('bnr');br.addEventListener('click',function(e){var t=e.target.closest?e.target.closest('.bni'):null;if(t){var q=bl[+t.getAttribute('data-i')][1];if(q)recGo(q)}});if(bl.length>1){var bd=$('bnd').children,bk=0;br.addEventListener('scroll',function(){var k=Math.round(br.scrollLeft/br.clientWidth);bk=k;for(var j=0;j<bd.length;j++)bd[j].className=j===k?'on':''},{passive:true});window.__bt=setInterval(function(){bk=(bk+1)%bl.length;br.scrollTo({left:bk*br.clientWidth,behavior:'smooth'})},4500);br.addEventListener('touchstart',function(){clearInterval(window.__bt)},{passive:true})}}else{bb.style.display='none'}}else{bb.style.display='none'}
- $("time").textContent=d.t+(ST.ns?" 기준":" 기준 (재고는 실시간이 아니에요)")}
+ $("time").textContent=d.t+(ST.ns?" 기준":" 기준 (재고 정보는 매장 상황에 따라 차이가 있을 수 있습니다)")}
 /* ---------- 목록 ---------- */
 function chips(){var c=$("chips");if(mode!=="all"||!ALL||$("q").value.trim()){c.style.display="none";return}c.style.display="flex";
  var list=[["","전체"]];if(ALL.nw&&ALL.nw.length)list.push(["new","NEW 새로 들어옴"]);if(ALL.top&&ALL.top.length)list.push(["top","요즘 잘 나가요"]);
@@ -121,6 +121,7 @@ function render(groups,title){
   if(mode==="shelf"){b.textContent="매장 상품 전체보기";b.onclick=function(){go("all")}}
   else{b.textContent=zn(SH)+" 상품으로 돌아가기";b.className="btn fill";b.onclick=function(){$("q").value="";chip="";go("shelf")}}
   sw.appendChild(b)}
+ if(mode==="all"&&($("q").value.trim()||chip)){var b3=document.createElement("button");b3.className="btn fill";b3.textContent="← 매장 상품 전체보기";b3.onclick=function(){$("q").value="";chip="";show();window.scrollTo(0,0)};sw.appendChild(b3)}
  chips();var ul=$("list");if(!groups.length){ul.innerHTML='<li class="empty">찾는 상품이 없어요. 직원에게 문의해 주세요.</li>';return}
  var lim=groups.slice(0,300),h=[];
  for(var i=0;i<lim.length;i++){var g=lim[i],ps=[],tot=0,locs=[],sale=false;
@@ -138,7 +139,7 @@ function toggle(li,g){var ex=li.querySelector(".opts");if(ex){li.removeChild(ex)
  var d=document.createElement("div");d.className="opts";var h=[],one=g.o.length===1;
  if(g.d)h.push('<div class="desc">'+esc(g.d)+'</div>');
  for(var j=0;j<g.o.length;j++){var o=g.o[j],pr=pp(o);
-  h.push('<div class="op" data-j="'+j+'"><div class="oh"><div><div class="on">'+esc(o[0]||g.n)+(o[4]&&!one?' <span class="ph">사진 ▾</span>':'')+'</div><div class="sub">'+esc(o[3]||"위치는 직원에게 문의")+(o[6]?'<span class="wh">창고 보관</span>':'')+'</div></div><div class="rt"><div class="pr">'+(o[5]!=null&&o[1]!=null?'<span class="was">'+won(o[1])+'</span>':'')+(pr!=null?won(pr):"가격 문의")+'</div><div class="st'+(o[2]<=0&&!ST.ns?" so":"")+'">'+stk(o[2])+'</div>'+((o[2]>0||ST.ns)&&pr!=null&&o[7]!=null?'<button class="add">담기</button>':'')+'</div></div>'+(o[4]&&one?'<img alt="" src="img/'+o[4]+'.webp">':'')+'</div>')}
+  h.push('<div class="op" data-j="'+j+'"><div class="oh"><div><div class="on">'+esc(o[0]||g.n)+(o[4]&&!one?' <span class="ph">사진 ▾</span>':'')+'</div><div class="sub">'+esc(o[3]||"위치는 직원에게 문의")+(o[6]?'<span class="wh">창고 보관</span>':'')+'</div></div><div class="rt"><div class="pr">'+(o[5]!=null&&o[1]!=null?'<span class="was">'+won(o[1])+'</span>':'')+(pr!=null?won(pr):"가격 문의")+'</div>'+(o[8]?'<div class="sub" style="color:#b45309;font-weight:700">이벤트 · 1인 하루 '+o[8]+'개</div>':'')+'<div class="st'+(o[2]<=0&&!ST.ns?" so":"")+'">'+stk(o[2])+'</div>'+((o[2]>0||ST.ns)&&pr!=null&&o[7]!=null?'<button class="add">담기</button>':'')+'</div></div>'+(o[4]&&one?'<img alt="" src="img/'+o[4]+'.webp">':'')+'</div>')}
  if(g.l&&ST.s)h.push('<a class="ss" href="'+esc(ST.s.replace(/\/$/,""))+'/products/'+esc(g.l)+'" target="_blank" rel="noopener">스마트스토어에서 보기 ›</a>');
  d.innerHTML=h.join("");li.appendChild(d);
  var ops=d.querySelectorAll(".op");for(var q=0;q<ops.length;q++)(function(op){var o=g.o[+op.getAttribute("data-j")];
@@ -163,15 +164,15 @@ function loadCart(){try{var r=JSON.parse(localStorage.getItem("cart2")||"null");
  try{return JSON.parse(sessionStorage.getItem("cart")||"[]")||[]}catch(e){}return[]}
 var CART=loadCart();
 function saveCart(){var j=JSON.stringify(CART);try{localStorage.setItem("cart2",JSON.stringify({t:Date.now(),items:CART}))}catch(e){}try{sessionStorage.setItem("cart",j)}catch(e){}cartBar()}
-function addCart(g,o){var f=CART.filter(function(x){return x.p===o[7]})[0];if(f){if(f.q<99)f.q++}else CART.push({p:o[7],n:g.n,o:o[0]||"",pr:pp(o),w:o[6]?1:0,q:1});saveCart()}
+function addCart(g,o){var lm=o[8]||0,f=CART.filter(function(x){return x.p===o[7]})[0];if(f){if(f.q<(lm||99))f.q++;else alert("이벤트 상품은 1인 하루 "+lm+"개까지 담을 수 있어요.");f.lm=lm}else CART.push({p:o[7],n:g.n,o:o[0]||"",pr:pp(o),w:o[6]?1:0,q:1,lm:lm});saveCart()}
 function cartBar(){var n=0,t=0;CART.forEach(function(x){n+=x.q;t+=x.q*x.pr});var b=$("cartbar");
  if(!n){b.style.display="none";return}b.style.display="flex";$("cartsum").textContent="🛒 "+n+"개 · "+won(t)}
 function openCart(){var p=$("sheetp"),t=0,h=['<div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:1.1rem">장바구니</b><button class="btn" id="cx">닫기</button></div>'];
  if(!CART.length)h.push('<p class="empty">담은 상품이 없어요.</p>');
- CART.forEach(function(x,i){t+=(x.so||x.gone?0:x.q*x.pr);h.push('<div class="ci"><div><div class="on">'+esc(x.n)+'</div><div class="sub">'+esc(x.o)+(x.w?'<span class="wh">창고에서 가져다 드려요</span>':'')+'</div><div class="sub">'+won(x.pr)+(x.op&&x.op!==x.pr?'<span style="color:#c62828;margin-left:6px">가격 변경 '+won(x.op)+' → '+won(x.pr)+'</span>':'')+(x.so?'<span style="color:#c62828;margin-left:6px;font-weight:700">품절</span>':'')+(x.gone?'<span style="color:#c62828;margin-left:6px;font-weight:700">지금은 판매 안 해요</span>':'')+'</div></div><div class="qt"><button data-i="'+i+'" data-d="-1">−</button><b>'+x.q+'</b><button data-i="'+i+'" data-d="1">+</button></div></div>')});
+ CART.forEach(function(x,i){t+=(x.so||x.gone?0:x.q*x.pr);h.push('<div class="ci"><div><div class="on">'+esc(x.n)+'</div><div class="sub">'+esc(x.o)+(x.lm?' <b style="color:#b45309">· 이벤트 1인 하루 '+x.lm+'개</b>':'')+(x.w?'<span class="wh">창고에서 가져다 드려요</span>':'')+'</div><div class="sub">'+won(x.pr)+(x.op&&x.op!==x.pr?'<span style="color:#c62828;margin-left:6px">가격 변경 '+won(x.op)+' → '+won(x.pr)+'</span>':'')+(x.so?'<span style="color:#c62828;margin-left:6px;font-weight:700">품절</span>':'')+(x.gone?'<span style="color:#c62828;margin-left:6px;font-weight:700">지금은 판매 안 해요</span>':'')+'</div></div><div class="qt"><button data-i="'+i+'" data-d="-1">−</button><b>'+x.q+'</b><button data-i="'+i+'" data-d="1">+</button></div></div>')});
  if(CART.length){h.push('<div class="tot"><span>합계</span><span>'+won(t)+'</span></div><button class="btn fill" id="cq" style="width:100%;padding:12px;font-size:1rem">카운터에 보여 주기 (QR)</button><div id="qrbox"></div><button class="btn" id="cc" style="width:100%;margin-top:10px">장바구니 비우기</button>')}
  p.innerHTML=h.join("");$("sheet").style.display="block";$("cx").onclick=function(){$("sheet").style.display="none"};
- var qb=p.querySelectorAll(".qt button");for(var k=0;k<qb.length;k++)qb[k].onclick=function(){var i=+this.getAttribute("data-i"),d=+this.getAttribute("data-d");CART[i].q+=d;if(CART[i].q<=0)CART.splice(i,1);saveCart();openCart()};
+ var qb=p.querySelectorAll(".qt button");for(var k=0;k<qb.length;k++)qb[k].onclick=function(){var i=+this.getAttribute("data-i"),d=+this.getAttribute("data-d");if(d>0&&CART[i].lm&&CART[i].q>=CART[i].lm){alert("이벤트 상품은 1인 하루 "+CART[i].lm+"개까지 담을 수 있어요.");return}CART[i].q+=d;if(CART[i].q<=0)CART.splice(i,1);saveCart();openCart()};
  if($("cc"))$("cc").onclick=function(){if(confirm("장바구니를 비울까요?")){CART=[];saveCart();openCart()}};
  if($("cq"))$("cq").onclick=showQR;freshCart()}
 function cartCode(){return"9988"+CART.filter(function(x){return!x.so&&!x.gone}).map(function(x){return("00000"+x.p).slice(-5)+("0"+Math.min(99,x.q)).slice(-2)}).join("")}

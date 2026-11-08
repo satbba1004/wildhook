@@ -1,7 +1,7 @@
 {
  "name": "와일드훅 상품 찾기",
  "short_name": "와일드훅",
- "description": "와일드훅 매장 상품·가격·재고 찾기",
+ "description": "와일드훅 매장 상품·가격 찾기",
  "start_url": "./",
  "scope": "./",
  "display": "standalone",
