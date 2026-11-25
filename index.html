@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>상품 찾기</title>
+<meta name="theme-color" content="#0E7A3E"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/icon-180.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="정민이샵"><meta name="apple-mobile-web-app-status-bar-style" content="default">
+<style>
+:root{--b:#2563eb;--t:#1f2933;--m:#6b7785;--l:#e5e7eb;--bg:#f6f7f9;--r:#c62828;--g:#2e7d32}
+*{box-sizing:border-box}html{font-size:15px}html.big{font-size:18.5px}
+body{margin:0;font-family:-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:var(--bg);color:var(--t);font-size:1rem;padding-bottom:70px}
+header{background:#fff;padding:14px 16px 10px;border-bottom:1px solid var(--l)}
+h1{font-size:1.3rem;margin:0 0 4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.open{font-size:.75rem;font-weight:700;border-radius:20px;padding:2px 8px;background:#e8f5e9;color:var(--g)}.open.no{background:#fdecec;color:var(--r)}
+.info{font-size:.83rem;color:var(--m);line-height:1.6}
+.links{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.links a,.links button{font-size:.83rem;border:1px solid var(--l);background:#fff;color:var(--t);border-radius:16px;padding:5px 10px;text-decoration:none}
+.rec{padding:12px 0 10px;background:#fff;border-bottom:1px solid var(--l)}.rec .rr{display:flex;gap:10px;overflow-x:auto;padding:0 16px;-webkit-overflow-scrolling:touch}.rec .ri{flex:none;width:84px;text-align:center;text-decoration:none;color:var(--t)}.rec .ri img,.rec .ri .ph{width:72px;height:72px;border-radius:10px;object-fit:cover;background:#eef0f3;display:block;margin:0 auto 4px;border:1px solid var(--l)}.rec .ri span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:.74rem;line-height:1.25}.rec .tt{font-size:1.35rem;font-weight:800;color:var(--b);line-height:1.2;padding:0 16px 8px}
+.bnr{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;background:#fff}.bnr::-webkit-scrollbar{display:none}.bni{flex:none;width:100%;aspect-ratio:3/1;scroll-snap-align:start;background:#f1f3f5}.bni img{width:100%;height:100%;object-fit:contain;display:block}.bnd{display:flex;justify-content:center;gap:6px;padding:6px 0;background:#fff;border-bottom:1px solid var(--l)}.bnd i{width:7px;height:7px;border-radius:50%;background:#cfd6e0}.bnd i.on{background:var(--b);width:18px;border-radius:4px}#bn{display:none}@media(min-width:760px){html{background:#e9ecf0}body{max-width:720px;margin:0 auto;box-shadow:0 0 12px rgba(0,0,0,.08)}#cartbar{left:50%;right:auto;width:100%;max-width:720px;transform:translateX(-50%)}#sheet .p{max-width:720px;margin:0 auto}}
+.rec2{position:relative;padding:12px 0 8px;background:#fff;border-bottom:1px solid var(--l)}
+.rec2 .tt{font-size:1.35rem;font-weight:800;color:var(--b);line-height:1.2;padding:0 16px 8px}.rec2 .tt small{font-size:.78rem;font-weight:600;color:#6b7280;margin-left:8px}
+.rec2 .rr{display:flex;gap:10px;overflow-x:auto;padding:0 16px;scroll-snap-type:x mandatory;scroll-padding-left:16px;-webkit-overflow-scrolling:touch;scrollbar-width:none}.rec2 .rr::-webkit-scrollbar{display:none}
+.rec2 .ri{flex:none;width:calc((100vw - 64px)/2);max-width:250px;scroll-snap-align:start;text-decoration:none;color:var(--t)}
+.rec2 .ri img{width:100%;height:auto;border-radius:12px;background:#eef0f3;display:block;margin:0 0 6px;border:1px solid var(--l)}
+.rec2 .ri .ph{width:100%;aspect-ratio:4/3;border-radius:12px;background:#eef0f3;display:block;margin:0 0 6px;border:1px solid var(--l)}
+.rec2 .ri span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:.88rem;font-weight:600;line-height:1.3}
+.rec2 .arr{position:absolute;right:0;top:44px;height:calc((100vw - 64px)/2*.75);max-height:187px;width:38px;display:flex;align-items:center;justify-content:center;font-size:1.9rem;font-weight:800;color:var(--b);background:linear-gradient(to left,rgba(255,255,255,.96),rgba(255,255,255,0));pointer-events:none;animation:nudge 1.4s ease-in-out infinite;transition:opacity .2s}.rec2 .arr.end{opacity:0}
+@keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(-5px)}}
+.rec2 .dots{display:flex;justify-content:center;gap:6px;padding:8px 0 0}.rec2 .dots i{width:7px;height:7px;border-radius:50%;background:#cfd6e0}.rec2 .dots i.on{background:var(--b);width:18px;border-radius:4px}
+.ri.go{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.notice{background:#fff7e0;color:#7a4b00;font-size:.9rem;padding:9px 16px;border-bottom:1px solid #f3e2b3}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 16px 6px}
+#q{width:100%;font-size:16px;padding:11px 12px;border:1px solid #cbd2d9;border-radius:10px;background:#fff}
+.chips{display:flex;gap:6px;overflow-x:auto;margin-top:8px;padding-bottom:2px;-webkit-overflow-scrolling:touch}
+.chip{flex:none;border:1px solid #cbd2d9;background:#fff;border-radius:16px;padding:6px 12px;font-size:.85rem;color:var(--t)}.chip.on{background:var(--b);border-color:var(--b);color:#fff;font-weight:700}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;font-size:.87rem;color:var(--m)}
+.btn{border:1px solid var(--b);background:#fff;color:var(--b);border-radius:8px;padding:7px 10px;font-size:.87rem;font-weight:600}.btn.fill{background:var(--b);color:#fff}
+#title{font-weight:700;color:var(--t)}.time{font-size:.77rem;color:var(--m);margin-top:4px}
+ul{list-style:none;margin:0;padding:0 12px 20px}
+li.g{background:#fff;border:1px solid var(--l);border-radius:12px;margin:8px 0;overflow:hidden}
+.row{padding:12px 14px;display:flex;justify-content:space-between;gap:10px;cursor:pointer}
+.th{width:56px;height:56px;border-radius:8px;object-fit:cover;flex:0 0 56px;background:#f2f2f2}.big .th{width:72px;height:72px;flex-basis:72px}
+.lf{display:flex;gap:10px;align-items:center;min-width:0}
+.nm{font-weight:700;font-size:1.03rem;line-height:1.35}.sub{font-size:.8rem;color:var(--m);margin-top:3px}
+.bd{display:inline-block;font-size:.68rem;font-weight:800;border-radius:4px;padding:1px 5px;margin-left:5px;vertical-align:2px}.bd.n{background:#e0ecff;color:var(--b)}.bd.s{background:#fdecec;color:var(--r)}
+.rt{text-align:right;white-space:nowrap}.pr{font-weight:700}.was{font-size:.78rem;color:var(--m);text-decoration:line-through;margin-right:4px;font-weight:400}
+.st{font-size:.83rem;margin-top:3px;color:var(--g)}.so{color:var(--r)}
+.opts{border-top:1px solid var(--l);background:#fafbfc}.desc{padding:9px 14px;font-size:.87rem;color:#374151;border-bottom:1px solid #eef0f2}
+.op{padding:10px 14px;border-bottom:1px solid #eef0f2}.op:last-child{border-bottom:0}
+.oh{display:flex;justify-content:space-between;gap:8px}.on{font-weight:600}.ph{font-size:.8rem;color:var(--b);font-weight:600;margin-left:4px}
+.add{margin-top:6px;border:1px solid var(--b);background:#fff;color:var(--b);border-radius:8px;padding:5px 12px;font-size:.85rem;font-weight:700}
+.op img{display:block;width:100%;max-width:420px;margin:8px auto 2px;border-radius:8px;background:#eee}
+.wh{font-size:.75rem;color:#8a5a00;background:#fff3cd;border-radius:4px;padding:1px 5px;margin-left:4px}
+.ss{display:inline-block;margin:8px 14px 12px;font-size:.87rem;color:#03a94d;font-weight:700;text-decoration:none}
+.empty{text-align:center;color:var(--m);padding:40px 16px}
+#cartbar{position:fixed;left:0;right:0;bottom:0;background:var(--b);color:#fff;display:none;align-items:center;justify-content:space-between;padding:12px 16px;font-weight:700;z-index:9;box-shadow:0 -2px 8px rgba(0,0,0,.15)}
+#cartbar button{background:#fff;color:var(--b);border:0;border-radius:8px;padding:7px 12px;font-weight:800;font-size:.9rem}
+#sheet{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;z-index:20}
+#sheet .p{position:absolute;left:0;right:0;bottom:0;max-height:88vh;overflow:auto;background:#fff;border-radius:16px 16px 0 0;padding:16px}
+.ci{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid #eef0f2}
+.qt{display:flex;align-items:center;gap:6px}.qt button{width:30px;height:30px;border:1px solid #cbd2d9;background:#fff;border-radius:6px;font-size:1rem}
+.tot{display:flex;justify-content:space-between;font-weight:800;font-size:1.1rem;margin:12px 0}
+#qrbox{text-align:center}#qrbox img,#qrbox canvas{width:78vw;max-width:340px;height:auto;image-rendering:pixelated}
+</style></head><body>
+<div id="bn"></div>
+<header><h1><span id="store">상품 찾기</span><span id="open"></span></h1><div class="info" id="info"></div><div class="links" id="links"></div></header>
+<div id="a2hs" style="display:none;align-items:center;gap:8px;padding:8px 16px;background:#0E7A3E;color:#fff;font-size:.88rem"><span style="flex:1">📲 정민이샵을(를) 홈 화면에 추가하면 앱처럼 열려요</span><button id="a2go" style="background:#fff;color:#0E7A3E;border:0;border-radius:14px;padding:5px 12px;font-weight:700">추가</button><button id="a2x" style="background:transparent;color:#fff;border:0;font-size:1.1rem">✕</button></div>
+<div class="notice" id="notice" style="display:none"></div>
+<div class="rec" id="rec" style="display:none"></div>
+<div class="rec2" id="rec2" style="display:none"></div>
+<div class="top"><input id="q" type="search" placeholder="상품명·초성으로 찾기 (예: 에기, ㅇㄱ)" autocomplete="off">
+<div class="chips" id="chips"></div>
+<div class="bar"><span id="title"></span><span id="sw"></span></div><div class="time" id="time"></div></div>
+<ul id="list"><li class="empty">불러오는 중…</li></ul>
+<div id="cartbar"><span id="cartsum"></span><button id="cartopen">장바구니 보기</button></div>
+<div id="sheet"><div class="p" id="sheetp"></div></div>
+<script>
+/*__DATA__*/
+var P=new URLSearchParams(location.search),SH=P.get("s")||"",ALL=null,SHD=null,mode=SH?"shelf":"all",chip="";
+var $=function(i){return document.getElementById(i)};
+function get(u){if(window.__D&&window.__D[u])return Promise.resolve(window.__D[u]);return fetch(u,{cache:"no-cache"}).then(function(r){if(!r.ok)throw r.status;return r.json()})}
+function won(x){return x.toLocaleString("ko-KR")+"원"}
+function stk(n){if(ST.ns)return"";return n<=0?"품절":"재고 있음"}
+var CH="ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ";
+function isCho(s){for(var i=0;i<s.length;i++)if(CH.indexOf(s[i])<0)return false;return s.length>0}
+function norm(s){return(s||"").replace(/\s+/g,"").toLowerCase()}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function pp(o){return o[5]!=null?o[5]:o[1]}
+var ST={},ZN={};function zn(c){return ZN[c]||(c+" 진열장")}
+/* ---------- 머리 ---------- */
+function openState(){if(!ST.op||!ST.cl)return"";var d=new Date(),days="일월화수목금토",today=days[d.getDay()];
+ if((ST.off||[]).indexOf(today)>=0)return'<span class="open no">오늘 휴무</span>';
+ var m=d.getHours()*60+d.getMinutes(),a=ST.op.split(":"),b=ST.cl.split(":"),o=+a[0]*60+ +(a[1]||0),c=+b[0]*60+ +(b[1]||0);
+ var on=c>o?(m>=o&&m<c):(m>=o||m<c);return on?'<span class="open">영업 중</span>':'<span class="open no">영업 전·마감</span>'}
+function head(d){ST=d.st||{};ZN=d.zn||{};$("store").textContent=ST.n||"상품 찾기";document.title=(ST.n||"")+" 상품 찾기";$("open").innerHTML=openState();
+ var h=[];if(ST.h)h.push("영업시간 "+esc(ST.h));if(ST.off&&ST.off.length)h.push("휴무 "+esc(ST.off.join("·")));if(ST.a)h.push(esc(ST.a));$("info").innerHTML=h.join(" · ");
+ var l=[];if(ST.p)l.push('<a href="tel:'+esc(ST.p.replace(/[^0-9+]/g,""))+'">📞 전화</a>');
+ l.push('<a target="_blank" rel="noopener" href="'+esc(ST.m||("https://map.naver.com/p/search/"+encodeURIComponent(ST.a||ST.n||"")))+'">📍 지도</a>');
+ if(ST.k)l.push('<a target="_blank" rel="noopener" href="'+esc(ST.k)+'">💬 카카오 문의</a>');
+ if(ST.tk)l.push('<a target="_blank" rel="noopener" href="'+esc(ST.tk)+'">💬 톡톡 문의</a>');
+ if(ST.sm)l.push('<a href="sms:'+esc(ST.sm)+'">✉️ 문자</a>');
+ if(ST.ti)l.push('<a target="_blank" rel="noopener" href="'+esc(ST.ti)+'">🌊 물때</a>');
+ if(ST.wx)l.push('<a target="_blank" rel="noopener" href="'+esc(ST.wx)+'">☀️ 날씨</a>');
+ l.push('<button id="big">가 글자 크게</button>');$("links").innerHTML=l.join("");
+ $("big").onclick=function(){var r=document.documentElement;r.classList.toggle("big");this.textContent=r.classList.contains("big")?"가 글자 작게":"가 글자 크게"};
+ if(ST.nt){$("notice").textContent="📢 "+ST.nt;$("notice").style.display="block"}
+ var rc=ST.rc||[],rb=$("rec");if(rc.length){var rh=[];for(var ri=0;ri<rc.length;ri++){var x=rc[ri],im=x[1]?'<img alt="" src="img/'+x[1]+'_t.webp" onerror="this.onerror=null;this.src=\'img/'+x[1]+'.webp\'">':'<div class="ph"></div>',inner=im+'<span>'+esc(x[0])+'</span>';
+  rh.push('<div class="ri go" data-q="'+esc(x[3]||x[0])+'">'+inner+'</div>')}rb.innerHTML='<div class="tt">🆕 새로 들어왔어요</div><div class="rr">'+rh.join("")+'</div>';rb.style.display="block"}else{rb.style.display="none"}
+ var r2=ST.rc2||[],b2=$("rec2");if(r2.length){var h2=[];for(var i2=0;i2<r2.length;i2++){var y=r2[i2],m2=y[1]?'<img alt="" loading="lazy" src="img/'+y[1]+'.webp">':'<div class="ph"></div>',in2=m2+(y[0]?'<span>'+esc(y[0])+'</span>':'');
+  h2.push('<div class="ri go" data-q="'+esc(y[3]||y[0])+'">'+in2+'</div>')}
+ var mo=r2.length>2,d2="";if(mo){for(var k2=0;k2<r2.length;k2++)d2+='<i'+(k2?'':' class="on"')+'></i>'}
+ b2.innerHTML='<div class="tt">⭐ 추천상품'+(mo?'<small>옆으로 밀어서 더 보기 ›</small>':'')+'</div><div class="rr" id="rr2">'+h2.join("")+'</div>'+(mo?'<div class="arr" id="rarr2">›</div><div class="dots" id="rdots2">'+d2+'</div>':'');b2.style.display="block";
+ if(mo){var q2=$("rr2"),a2=$("rarr2"),o2=$("rdots2").children;q2.addEventListener("scroll",function(){var w=q2.firstChild.offsetWidth+10,k=Math.round(q2.scrollLeft/w),en=q2.scrollLeft+q2.clientWidth>=q2.scrollWidth-4;if(en)k=o2.length-1;for(var j=0;j<o2.length;j++)o2[j].className=j===k?"on":"";a2.className=en?"arr end":"arr"},{passive:true})}}else{b2.style.display="none"}
+ var BN=ST.bn||[],bb=$('bn');if(window.__bt)clearInterval(window.__bt);if(BN.length){var dd=new Date(),pz=function(n){return(n<10?'0':'')+n},ymd=dd.getFullYear()+'-'+pz(dd.getMonth()+1)+'-'+pz(dd.getDate()),bl=BN.filter(function(x){return(!x[2]||x[2]<=ymd)&&(!x[3]||ymd<=x[3])});if(bl.length){bb.innerHTML='<div class=bnr id=bnr>'+bl.map(function(x,i){return'<div class=bni data-i='+i+(x[1]?' style=cursor:pointer':'')+'><img loading=lazy src=img/'+x[0]+'.webp></div>'}).join('')+'</div>'+(bl.length>1?'<div class=bnd id=bnd>'+bl.map(function(x,i){return'<i'+(i?'':' class=on')+'></i>'}).join('')+'</div>':'');bb.style.display='block';var br=$('bnr');br.addEventListener('click',function(e){var t=e.target.closest?e.target.closest('.bni'):null;if(t){var q=bl[+t.getAttribute('data-i')][1];if(q)recGo(q)}});if(bl.length>1){var bd=$('bnd').children,bk=0;br.addEventListener('scroll',function(){var k=Math.round(br.scrollLeft/br.clientWidth);bk=k;for(var j=0;j<bd.length;j++)bd[j].className=j===k?'on':''},{passive:true});window.__bt=setInterval(function(){bk=(bk+1)%bl.length;br.scrollTo({left:bk*br.clientWidth,behavior:'smooth'})},4500);br.addEventListener('touchstart',function(){clearInterval(window.__bt)},{passive:true})}}else{bb.style.display='none'}}else{bb.style.display='none'}
+ $("time").textContent=d.t+(ST.ns?" 기준":" 기준 (재고 정보는 매장 상황에 따라 차이가 있을 수 있습니다)")}
+/* ---------- 목록 ---------- */
+function chips(){var c=$("chips");if(mode!=="all"||!ALL||$("q").value.trim()){c.style.display="none";return}c.style.display="flex";
+ var list=[["","전체"]];if(ALL.nw&&ALL.nw.length)list.push(["new","NEW 새로 들어옴"]);if(ALL.top&&ALL.top.length)list.push(["top","요즘 잘 나가요"]);
+ (ALL.col||[]).forEach(function(x,i){list.push(["c"+i,x[0]])});
+ c.innerHTML=list.map(function(x){return'<button class="chip'+(x[0]===chip?" on":"")+'" data-k="'+x[0]+'">'+esc(x[1])+'</button>'}).join("");
+ var b=c.querySelectorAll(".chip");for(var i=0;i<b.length;i++)b[i].onclick=function(){chip=this.getAttribute("data-k");show()}}
+function render(groups,title){
+ $("title").textContent=title;var sw=$("sw");sw.innerHTML="";
+ if(SH){var b=document.createElement("button");b.className="btn";
+  if(mode==="shelf"){b.textContent="매장 상품 전체보기";b.onclick=function(){go("all")}}
+  else{b.textContent=zn(SH)+" 상품으로 돌아가기";b.className="btn fill";b.onclick=function(){$("q").value="";chip="";go("shelf")}}
+  sw.appendChild(b)}
+ if(mode==="all"&&($("q").value.trim()||chip)){var b3=document.createElement("button");b3.className="btn fill";b3.textContent="← 매장 상품 전체보기";b3.onclick=function(){$("q").value="";chip="";show();window.scrollTo(0,0)};sw.appendChild(b3)}
+ chips();var ul=$("list");if(!groups.length){ul.innerHTML='<li class="empty">찾는 상품이 없어요. 직원에게 문의해 주세요.</li>';return}
+ var lim=groups.slice(0,300),h=[];
+ for(var i=0;i<lim.length;i++){var g=lim[i],ps=[],tot=0,locs=[],sale=false;
+  for(var j=0;j<g.o.length;j++){var o=g.o[j];if(pp(o)!=null)ps.push(pp(o));if(o[5]!=null)sale=true;tot+=Math.max(0,o[2]);if(o[3]&&locs.indexOf(o[3])<0)locs.push(o[3])}
+  var mn=ps.length?Math.min.apply(0,ps):0,mx=ps.length?Math.max.apply(0,ps):0;
+  var pr=ps.length?(mn===mx?won(mn):won(mn)+"~"):"가격 문의";
+  if(g.o.length===1&&g.o[0][5]!=null&&g.o[0][1]!=null)pr='<span class="was">'+won(g.o[0][1])+'</span>'+pr;
+  var sub=(g.o.length>1?"옵션 "+g.o.length+"개 · ":"")+(locs.length?locs.slice(0,2).join(", ")+(locs.length>2?" 외":""):"위치는 직원에게 문의");
+  var tim="";for(var j=0;j<g.o.length;j++)if(g.o[j][4]){tim=g.o[j][4];break}
+  h.push('<li class="g" data-i="'+i+'"><div class="row"><div class="lf">'+(tim?'<img class="th" alt="" loading="lazy" src="img/'+tim+'_t.webp" onerror="this.onerror=null;this.src=\'img/'+tim+'.webp\'">':'')+'<div><div class="nm">'+esc(g.n)+(g.w?'<span class="bd n">NEW</span>':'')+(sale?'<span class="bd s">SALE</span>':'')+'</div><div class="sub">'+esc(sub)+'</div></div></div><div class="rt"><div class="pr">'+pr+'</div><div class="st'+(tot<=0&&!ST.ns?" so":"")+'">'+(ST.ns?"":(tot<=0?"품절":(g.o.length>1?"재고 있음":stk(g.o[0][2]))))+'</div></div></div></li>')}
+ if(groups.length>300)h.push('<li class="empty">결과가 많아요. 검색어를 더 입력해 주세요.</li>');
+ ul.innerHTML=h.join("");
+ var lis=ul.querySelectorAll("li.g");for(var k=0;k<lis.length;k++)(function(li){li.firstChild.onclick=function(){toggle(li,lim[+li.getAttribute("data-i")])}})(lis[k])}
+function toggle(li,g){var ex=li.querySelector(".opts");if(ex){li.removeChild(ex);return}
+ var d=document.createElement("div");d.className="opts";var h=[],one=g.o.length===1;
+ if(g.d)h.push('<div class="desc">'+esc(g.d)+'</div>');
+ for(var j=0;j<g.o.length;j++){var o=g.o[j],pr=pp(o);
+  h.push('<div class="op" data-j="'+j+'"><div class="oh"><div><div class="on">'+esc(o[0]||g.n)+(o[4]&&!one?' <span class="ph">사진 ▾</span>':'')+'</div><div class="sub">'+esc(o[3]||"위치는 직원에게 문의")+(o[6]?'<span class="wh">창고 보관</span>':'')+'</div></div><div class="rt"><div class="pr">'+(o[5]!=null&&o[1]!=null?'<span class="was">'+won(o[1])+'</span>':'')+(pr!=null?won(pr):"가격 문의")+'</div>'+(o[8]?'<div class="sub" style="color:#b45309;font-weight:700">이벤트 · 1인 하루 '+o[8]+'개</div>':'')+'<div class="st'+(o[2]<=0&&!ST.ns?" so":"")+'">'+stk(o[2])+'</div>'+((o[2]>0||ST.ns)&&pr!=null&&o[7]!=null?'<button class="add">담기</button>':'')+'</div></div>'+(o[4]&&one?'<img alt="" src="img/'+o[4]+'.webp">':'')+'</div>')}
+ if(g.l&&ST.s)h.push('<a class="ss" href="'+esc(ST.s.replace(/\/$/,""))+'/products/'+esc(g.l)+'" target="_blank" rel="noopener">스마트스토어에서 보기 ›</a>');
+ d.innerHTML=h.join("");li.appendChild(d);
+ var ops=d.querySelectorAll(".op");for(var q=0;q<ops.length;q++)(function(op){var o=g.o[+op.getAttribute("data-j")];
+  var ab=op.querySelector(".add");if(ab)ab.onclick=function(e){e.stopPropagation();addCart(g,o);ab.textContent="담았어요 ✓";setTimeout(function(){ab.textContent="담기"},1200)};
+  if(!o[4]||one)return;op.onclick=function(){var x=op.querySelector("img"),ph=op.querySelector(".ph");if(x){op.removeChild(x);if(ph)ph.textContent="사진 ▾";return}
+   var e=document.createElement("img");e.alt="";e.src="img/"+o[4]+".webp";op.appendChild(e);if(ph)ph.textContent="사진 ▴"}})(ops[q])}
+function search(list,q){q=norm(q);if(!q)return list;var c=isCho(q),out=[];
+ for(var i=0;i<list.length;i++){var g=list[i],hay=c?g.c:(norm(g.n)+"|"+norm(g.k||"")+"|"+g.q);if(hay.indexOf(q)>=0)out.push(g)}return out}
+function needAll(){return ALL?Promise.resolve(ALL):get("data/all.json").then(function(d){ALL=d;return d})}
+function pick(d,ids){return(ids||[]).map(function(i){return d.g[i]}).filter(Boolean)}
+function show(){var q=$("q").value.trim();
+ if(mode==="shelf"&&!q){render(SHD.g,zn(SH)+" 상품");return}
+ needAll().then(function(d){if(q){var r=search(d.g,q);render(r,"‘"+q+"’ 검색 결과 "+r.length+"개");return}
+  if(chip==="new")render(pick(d,d.nw),"새로 들어온 상품");else if(chip==="top")render(pick(d,d.top),"요즘 잘 나가는 상품");
+  else if(chip[0]==="c"&&d.col&&d.col[+chip.slice(1)]){var c=d.col[+chip.slice(1)];render(pick(d,c[1]),c[0])}
+  else{chip="";render(d.g,"매장 전체 상품 "+d.g.length+"개")}})}
+function go(m,nopush){mode=m;if(!nopush&&SH)history.pushState({m:m},"",location.pathname+"?s="+encodeURIComponent(SH)+(m==="all"?"&v=all":""));show();window.scrollTo(0,0)}
+window.onpopstate=function(e){mode=(e.state&&e.state.m)||(P.get("v")==="all"?"all":(SH?"shelf":"all"));if(mode==="shelf")$("q").value="";if($("sheet").style.display==="block"){$("sheet").style.display="none"}show()};
+var tmr;$("q").oninput=function(){clearTimeout(tmr);tmr=setTimeout(function(){if(SH&&mode==="shelf"&&$("q").value.trim()){mode="all";history.pushState({m:"all"},"",location.pathname+"?s="+encodeURIComponent(SH)+"&v=all")}show()},180)};
+/* ---------- 장바구니 (폰에 30일 동안 보관) ---------- */
+function loadCart(){try{var r=JSON.parse(localStorage.getItem("cart2")||"null");if(r&&r.items&&r.t&&(Date.now()-r.t)<30*864e5)return r.items}catch(e){}
+ try{return JSON.parse(sessionStorage.getItem("cart")||"[]")||[]}catch(e){}return[]}
+var CART=loadCart();
+function saveCart(){var j=JSON.stringify(CART);try{localStorage.setItem("cart2",JSON.stringify({t:Date.now(),items:CART}))}catch(e){}try{sessionStorage.setItem("cart",j)}catch(e){}cartBar()}
+function addCart(g,o){var lm=o[8]||0,f=CART.filter(function(x){return x.p===o[7]})[0];if(f){if(f.q<(lm||99))f.q++;else alert("이벤트 상품은 1인 하루 "+lm+"개까지 담을 수 있어요.");f.lm=lm}else CART.push({p:o[7],n:g.n,o:o[0]||"",pr:pp(o),w:o[6]?1:0,q:1,lm:lm});saveCart()}
+function cartBar(){var n=0,t=0;CART.forEach(function(x){n+=x.q;t+=x.q*x.pr});var b=$("cartbar");
+ if(!n){b.style.display="none";return}b.style.display="flex";$("cartsum").textContent="🛒 "+n+"개 · "+won(t)}
+function openCart(){var p=$("sheetp"),t=0,h=['<div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:1.1rem">장바구니</b><button class="btn" id="cx">닫기</button></div>'];
+ if(!CART.length)h.push('<p class="empty">담은 상품이 없어요.</p>');
+ CART.forEach(function(x,i){t+=(x.so||x.gone?0:x.q*x.pr);h.push('<div class="ci"><div><div class="on">'+esc(x.n)+'</div><div class="sub">'+esc(x.o)+(x.lm?' <b style="color:#b45309">· 이벤트 1인 하루 '+x.lm+'개</b>':'')+(x.w?'<span class="wh">창고에서 가져다 드려요</span>':'')+'</div><div class="sub">'+won(x.pr)+(x.op&&x.op!==x.pr?'<span style="color:#c62828;margin-left:6px">가격 변경 '+won(x.op)+' → '+won(x.pr)+'</span>':'')+(x.so?'<span style="color:#c62828;margin-left:6px;font-weight:700">품절</span>':'')+(x.gone?'<span style="color:#c62828;margin-left:6px;font-weight:700">지금은 판매 안 해요</span>':'')+'</div></div><div class="qt"><button data-i="'+i+'" data-d="-1">−</button><b>'+x.q+'</b><button data-i="'+i+'" data-d="1">+</button></div></div>')});
+ if(CART.length){h.push('<div class="tot"><span>합계</span><span>'+won(t)+'</span></div><button class="btn fill" id="cq" style="width:100%;padding:12px;font-size:1rem">카운터에 보여 주기 (QR)</button><div id="qrbox"></div><button class="btn" id="cc" style="width:100%;margin-top:10px">장바구니 비우기</button>')}
+ p.innerHTML=h.join("");$("sheet").style.display="block";$("cx").onclick=function(){$("sheet").style.display="none"};
+ var qb=p.querySelectorAll(".qt button");for(var k=0;k<qb.length;k++)qb[k].onclick=function(){var i=+this.getAttribute("data-i"),d=+this.getAttribute("data-d");if(d>0&&CART[i].lm&&CART[i].q>=CART[i].lm){alert("이벤트 상품은 1인 하루 "+CART[i].lm+"개까지 담을 수 있어요.");return}CART[i].q+=d;if(CART[i].q<=0)CART.splice(i,1);saveCart();openCart()};
+ if($("cc"))$("cc").onclick=function(){if(confirm("장바구니를 비울까요?")){CART=[];saveCart();openCart()}};
+ if($("cq"))$("cq").onclick=showQR;freshCart()}
+function cartCode(){return"9988"+CART.filter(function(x){return!x.so&&!x.gone}).map(function(x){return("00000"+x.p).slice(-5)+("0"+Math.min(99,x.q)).slice(-2)}).join("")}
+function showQR(){var box=$("qrbox");if(cartCode().length<=4){box.innerHTML='<p class="so">QR로 보낼 수 있는 상품이 없어요(품절이거나 지금은 판매 안 해요).</p>';return}box.innerHTML='<p class="sub">QR 만드는 중…</p>';
+ function draw(){var q=qrcode(0,"M");q.addData(cartCode(),"Numeric");q.make();box.innerHTML='<p style="font-weight:700;margin:12px 0 4px">카운터 직원에게 이 화면을 보여 주세요</p>'+q.createImgTag(8,8)+'<p class="sub">구매가 끝났으면 아래 [장바구니 비우기]를 눌러 주세요.</p>'}
+ if(window.qrcode)return draw();var s=document.createElement("script");s.src="qr.js";s.onload=draw;s.onerror=function(){box.innerHTML='<p class="so">QR을 만들지 못했어요. 이 목록을 직원에게 보여 주세요.</p>'};document.head.appendChild(s)}
+/* ---------- 홈 화면에 추가 ---------- */
+var DIP=null;
+function isStandalone(){try{return(window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone===true}catch(e){return false}}
+function a2hs(){var b=$("a2hs");if(!b||isStandalone())return;var ios=/iphone|ipad|ipod/i.test(navigator.userAgent);if(!DIP&&!ios)return;
+ try{if(localStorage.getItem("a2hs_x")==="1")return}catch(e){}
+ b.style.display="flex";
+ $("a2go").onclick=function(){if(DIP){DIP.prompt();DIP=null;b.style.display="none"}else{alert("아래(또는 위) 공유 버튼 □↑ 을 누른 뒤 '홈 화면에 추가'를 눌러 주세요.")}};
+ $("a2x").onclick=function(){b.style.display="none";try{localStorage.setItem("a2hs_x","1")}catch(e){}}}
+window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();DIP=e;a2hs()});
+window.addEventListener("load",function(){setTimeout(a2hs,600)});
+/* ---------- 장바구니 신선도(가격·품절 확인) ---------- */
+var _fc=0;
+function freshCart(){if(_fc||!CART.length)return;_fc=1;
+ needAll().then(function(d){var ch=0,idx={};d.g.forEach(function(g){g.o.forEach(function(o){if(o[7]!=null)idx[o[7]]=o})});
+  CART.forEach(function(x){var o=idx[x.p];if(!o){if(!x.gone){x.gone=1;ch=1}return}
+   var pr=pp(o),so=(!ST.ns&&o[2]<=0)?1:0;if(x.gone){x.gone=0;ch=1}
+   if(pr!=null&&pr!==x.pr){x.op=x.pr;x.pr=pr;ch=1}
+   if(!!x.so!==!!so){x.so=so;ch=1}});
+  _fc=0;if(ch){saveCart();openCart()}}).catch(function(){_fc=0})}
+$("cartopen").onclick=openCart;$("sheet").onclick=function(e){if(e.target===this)this.style.display="none"};
+/* ---------- 추천 사진을 누르면 아래 목록에서 그 상품 찾기 ---------- */
+function recGo(q){if(!q)return;if(SH&&mode==='shelf'){mode='all';history.pushState({m:'all'},'',location.pathname+'?s='+encodeURIComponent(SH)+'&v=all')}chip='';$('q').value=q;show();setTimeout(function(){var li=document.querySelectorAll('#list li.g'),tp=$('list').getBoundingClientRect().top+window.pageYOffset-document.querySelector('.top').offsetHeight-6;window.scrollTo({top:Math.max(0,tp),behavior:'smooth'});if(li.length===1&&!li[0].querySelector('.opts'))li[0].firstChild.click()},300)}
+document.addEventListener('click',function(e){var t=e.target.closest?e.target.closest('.ri.go'):null;if(t)recGo(t.getAttribute('data-q'))});
+/* ---------- 시작 ---------- */
+(SH?get("data/s/"+encodeURIComponent(SH)+".json").then(function(d){SHD=d;head(d);if(P.get("v")==="all")mode="all";history.replaceState({m:mode},"");show()}).catch(function(){SH="";mode="all";return needAll().then(function(d){head(d);show()})})
+ :needAll().then(function(d){head(d);show()})).catch(function(){$("list").innerHTML='<li class="empty">상품 목록을 불러오지 못했어요. 잠시 후 다시 열어 주세요.</li>'});
+cartBar();
+</script></body></html>
