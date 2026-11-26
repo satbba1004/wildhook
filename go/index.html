@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>와일드훅 · 원하는 곳을 골라 주세요</title>
+<style>
+  :root { --green: #0E7A3E; --bg: #F6F8F6; --ink: #1F2A24; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #111613; --ink: #EAF2EC; }
+  }
+  :root[data-theme="dark"] { --bg: #111613; --ink: #EAF2EC; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif; }
+  .wrap { max-width: 480px; margin: 0 auto; padding: 16px; box-sizing: border-box; }
+  h1 { font-size: 22px; margin: 36px 0 8px; text-align: center; line-height: 1.4; }
+  p.sub { text-align: center; margin: 0 0 28px; color: #667; font-size: 15px; }
+  a.btn { display: block; box-sizing: border-box; width: 100%; padding: 22px 16px; margin: 14px 0;
+          border-radius: 14px; text-decoration: none; text-align: center;
+          font-size: 19px; font-weight: 700; }
+  a.main { background: var(--green); color: #fff; }
+  a.sub2 { background: #fff; color: var(--green); border: 2px solid var(--green); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) a.sub2 { background: #1B241F; }
+  }
+  .small { text-align: center; font-size: 13px; color: #889; margin-top: 28px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>와일드훅 · 원하는 곳을 골라 주세요</h1>
+  <p class="sub">매장 상품을 보거나, 스마트스토어에서 주문하세요.</p>
+
+  <a class="btn main" href="https://wildhook.pages.dev/">🎣 매장 상품 보기 (손님 페이지)</a>
+  <a class="btn sub2" href="https://smartstore.naver.com/yahofishing">🛒 스마트스토어에서 보기</a>
+
+  <div class="small">와일드훅 · 경기도 부천시 부흥로 380 2층<br>10:00~17:00 · 일요일 휴무</div>
+</div>
+</body>
+</html>
