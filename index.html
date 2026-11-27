@@ -58,7 +58,7 @@ li.g{background:#fff;border:1px solid var(--l);border-radius:12px;margin:8px 0;o
 .qt{display:flex;align-items:center;gap:6px}.qt button{width:30px;height:30px;border:1px solid #cbd2d9;background:#fff;border-radius:6px;font-size:1rem}
 .tot{display:flex;justify-content:space-between;font-weight:800;font-size:1.1rem;margin:12px 0}
 #qrbox{text-align:center}#qrbox img,#qrbox canvas{width:78vw;max-width:340px;height:auto;image-rendering:pixelated}
-</style></head><body>
+#fab{position:fixed;right:12px;bottom:16px;display:flex;flex-direction:column;gap:8px;z-index:8;transition:bottom .2s}#list{padding-bottom:110px}#fab a{display:flex;align-items:center;gap:5px;padding:7px 12px;border-radius:20px;font-weight:700;font-size:.8rem;opacity:.96;text-decoration:none;box-shadow:0 3px 10px rgba(0,0,0,.22);white-space:nowrap;transition:padding .15s}#fab.mini a{padding:9px 11px;border-radius:50%}#fab.mini a span{display:none}#fab .ss2{background:#03C75A;color:#fff}#fab .tk2{background:#fff;color:#03a94d;border:2px solid #03C75A}</style></head><body>
 <div id="bn"></div>
 <header><h1><span id="store">상품 찾기</span><span id="open"></span></h1><div class="info" id="info"></div><div class="links" id="links"></div></header>
 <div id="a2hs" style="display:none;align-items:center;gap:8px;padding:8px 16px;background:#0E7A3E;color:#fff;font-size:.88rem"><span style="flex:1">📲 정민이샵을(를) 홈 화면에 추가하면 앱처럼 열려요</span><button id="a2go" style="background:#fff;color:#0E7A3E;border:0;border-radius:14px;padding:5px 12px;font-weight:700">추가</button><button id="a2x" style="background:transparent;color:#fff;border:0;font-size:1.1rem">✕</button></div>
@@ -94,7 +94,6 @@ function head(d){ST=d.st||{};ZN=d.zn||{};$("store").textContent=ST.n||"상품 �
  var l=[];if(ST.p)l.push('<a href="tel:'+esc(ST.p.replace(/[^0-9+]/g,""))+'">📞 전화</a>');
  l.push('<a target="_blank" rel="noopener" href="'+esc(ST.m||("https://map.naver.com/p/search/"+encodeURIComponent(ST.a||ST.n||"")))+'">📍 지도</a>');
  if(ST.k)l.push('<a target="_blank" rel="noopener" href="'+esc(ST.k)+'">💬 카카오 문의</a>');
- if(ST.tk)l.push('<a target="_blank" rel="noopener" href="'+esc(ST.tk)+'">💬 톡톡 문의</a>');
  if(ST.sm)l.push('<a href="sms:'+esc(ST.sm)+'">✉️ 문자</a>');
  if(ST.ti)l.push('<a target="_blank" rel="noopener" href="'+esc(ST.ti)+'">🌊 물때</a>');
  if(ST.wx)l.push('<a target="_blank" rel="noopener" href="'+esc(ST.wx)+'">☀️ 날씨</a>');
@@ -141,7 +140,7 @@ function toggle(li,g){var ex=li.querySelector(".opts");if(ex){li.removeChild(ex)
  if(g.d)h.push('<div class="desc">'+esc(g.d)+'</div>');
  for(var j=0;j<g.o.length;j++){var o=g.o[j],pr=pp(o);
   h.push('<div class="op" data-j="'+j+'"><div class="oh"><div><div class="on">'+esc(o[0]||g.n)+(o[4]&&!one?' <span class="ph">사진 ▾</span>':'')+'</div><div class="sub">'+esc(o[3]||"위치는 직원에게 문의")+(o[6]?'<span class="wh">창고 보관</span>':'')+'</div></div><div class="rt"><div class="pr">'+(o[5]!=null&&o[1]!=null?'<span class="was">'+won(o[1])+'</span>':'')+(pr!=null?won(pr):"가격 문의")+'</div>'+(o[8]?'<div class="sub" style="color:#b45309;font-weight:700">이벤트 · 1인 하루 '+o[8]+'개</div>':'')+'<div class="st'+(o[2]<=0&&!ST.ns?" so":"")+'">'+stk(o[2])+'</div>'+((o[2]>0||ST.ns)&&pr!=null&&o[7]!=null?'<button class="add">담기</button>':'')+'</div></div>'+(o[4]&&one?'<img alt="" src="img/'+o[4]+'.webp">':'')+'</div>')}
- if(g.l&&ST.s)h.push('<a class="ss" href="'+esc(ST.s.replace(/\/$/,""))+'/products/'+esc(g.l)+'" target="_blank" rel="noopener">스마트스토어에서 보기 ›</a>');
+ if(g.l&&ST.s)h.push('<a class="ss" href="'+esc(ST.s.replace(/\/$/,""))+'/products/'+esc(g.l)+'" target="_blank" rel="noopener">스마트스토어에서 보기 ›</a>');else if(ST.s)h.push('<a class="ss" href="'+esc(ST.s)+'" target="_blank" rel="noopener">온라인 주문은 스마트스토어에서 ›</a>');
  d.innerHTML=h.join("");li.appendChild(d);
  var ops=d.querySelectorAll(".op");for(var q=0;q<ops.length;q++)(function(op){var o=g.o[+op.getAttribute("data-j")];
   var ab=op.querySelector(".add");if(ab)ab.onclick=function(e){e.stopPropagation();addCart(g,o);ab.textContent="담았어요 ✓";setTimeout(function(){ab.textContent="담기"},1200)};
@@ -207,4 +206,12 @@ document.addEventListener('click',function(e){var t=e.target.closest?e.target.cl
 (SH?get("data/s/"+encodeURIComponent(SH)+".json").then(function(d){SHD=d;head(d);if(P.get("v")==="all")mode="all";history.replaceState({m:mode},"");show()}).catch(function(){SH="";mode="all";return needAll().then(function(d){head(d);show()})})
  :needAll().then(function(d){head(d);show()})).catch(function(){$("list").innerHTML='<li class="empty">상품 목록을 불러오지 못했어요. 잠시 후 다시 열어 주세요.</li>'});
 cartBar();
+
+/* (BUILD 285) 떠 있는 [톡톡 문의] [스마트스토어] — 장바구니 줄이 보이면 그 위로 */
+(function(){var f=document.createElement("div");f.id="fab";document.body.appendChild(f);var done=0;
+function draw(){if(typeof ST!=="object")return;var h="";if(ST.tk)h+='<a class="tk2" target="_blank" rel="noopener" href="'+esc(ST.tk)+'" aria-label="톡톡 문의">💬<span> 톡톡 문의</span></a>';
+ if(ST.s)h+='<a class="ss2" target="_blank" rel="noopener" href="'+esc(ST.s)+'" aria-label="스마트스토어">🛒<span> 스마트스토어</span></a>';if(h){f.innerHTML=h;done=1}}
+/* (BUILD 286) 화면을 내리는 동안은 작은 동그라미(💬 🛒)로, 멈추면 다시 크게 */
+var mt;window.addEventListener("scroll",function(){f.className="mini";clearTimeout(mt);mt=setTimeout(function(){f.className=""},700)},{passive:true});
+setInterval(function(){if(!done)draw();var b=document.getElementById("cartbar");f.style.bottom=(b&&b.style.display==="flex"?(b.offsetHeight+12):16)+"px"},400)})();
 </script></body></html>

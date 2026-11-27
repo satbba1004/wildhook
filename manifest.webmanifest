@@ -2,7 +2,7 @@
  "name": "정민이샵 상품 찾기",
  "short_name": "정민이샵",
  "description": "정민이샵 매장 상품·가격 찾기",
- "start_url": "./go/",
+ "start_url": "./",
  "scope": "./",
  "display": "standalone",
  "background_color": "#0E7A3E",
